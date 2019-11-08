@@ -81,89 +81,218 @@ The protocol is split into four distinct phases:
 
 \subsection{Producer Node Selection} 
 
+
+
+Original work for the Catalyst consensus mechanism states that the peers are selected with relation to the PID and the hash of the previous data. As the PID can be manipulated by a user and thereby weight in their favor of selection to become a producer this is not usable. \\
+
+Research into a RANDAO provides a viable alternative \cite{skvorc}\cite{randao}. Generation of a process by which each user creates their own random value and then by combining these random numbers across the network you gain distributed generated pseudo-random numbers. The larger the network the more random the number will be. The proposed process works as follows: \\
+
+\begin{itemize} 
+
+\item Each node $n$ in the worker pool $N$ generates a random number $r$.
+\item To this random number the hash of the previous ledger state, $D$, must be added.
+\item $n$ then creates a Blake-2b hash of the combined random number $H(r + D)$.
+\item Each $n$ must then send their value $r$ to the contract. 
+\item If they do not send their $r$ value they are not eligible to become a producer node.
+\item Each $n$ in $N$ sends their $H(r + D)$ to a hard coded smart contract. This creates the global random value $R$. This is done through addition of all the random numbers.
+\item The smart contract must determine:
+\begin{itemize}
+\item Whether $n$ did submit all correct information. i.e. $r$, and $H(r+D)$.
+\item That $n$ did in fact use the $D$ value when generating the random number. This is done by taking the $r$ value submitted by the user and hashing with $D$. 
+\item Ensuring $n$ has paid a sufficient stake to take part in the selection process. 
+\item Validating that each worker $n$ has only distributed one random number to the smart contract. 
+\end{itemize} 
+\item Failure of any one of these points means the smart contract will not accept the submission of a random number from $r$ and and stake made will be lost. 
+\item This global random can the be used to determine the producers for the next cycle(s). 
+\item This is done by determining the nodes that have a $H(r + D)$ closest to the $R$ value. \\
+
+\end{itemize} 
+
+
+This method is secure from manipulation as hashing algorithms are one way functions meaning that there is no provably efficient method to inverse a hashing function i.e. retrieving a message $m$ from a digest $H(m)$. If a node does not input a value into the smart contract then they are not eligible for selection for becoming a producer for that cycle(s). \\
+
+Addition of the $D$ value is necessary as this will prevent a producer from using known random values to create a desired digest that gives them an advantage when being selected. The value for $D$ must fulfill two rules, firstly it must always be the same for all nodes in the worker pool, secondly it must change with each draw of a random number when determining the random selection of producer nodes. This prevents a user creating a hash using known input and digest combinations to gain an advantage when being selected. Furthermore if the hash of the previous ledger state is used as $D$ is ensures that a prospective producer node knows the current ledger state. If they do not then their random number will be invalid as $H(r + D_{prod}) \neq H(r + D)$. \\
+
+As described in RANDAO, this can be further extended to implement staking. Nominal fees to contribute can be added in order to prevent DDOS. This is done in such a way that a nominal fee is added as to not dissuade users from legitimately wanting to become producers while dissuading malicious entities from attempting to perform a Sybil attack against the network in order to gain majority control over a producer pool for a cycle or multiple cycle. There is also the additional benefit of simplification of the overall consensus mechanism as it removes the need for a queuing mechanism as well as producing a verifiable method of keeping track of what nodes are registering to be workers for any given cycle. It also thereby in turn provides evidence to other nodes on the network who the producers for any given cycle are as the process will be verifiable. \\
+
+This scheme will provide the Catalyst consensus mechanism with a verifiable, reliable and secure mechanism to generate a pool of producers. By randomly assigning which workers get to participate in the next ledger cycle fairness is ensured. \\
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Construction Phase}
 
-The first phase of the Catalyst consensus algorithm is the Construction Phase. Within which the selected producer nodes  $P_j~\forall j \in P$ calculate their proposed ledger state update or their local ledger state update. This is done by aggregating and validating all transactions that have occurred during a set time period. These transactions assuming their validity are integrated into the producers local ledger state update. From which they can create a hash of the update. This hash digest represents what they believe to be the correct update and is broadcast to the other producer nodes during for that cycle. Assuming the collision free nature of hash functions, the only mechanism for multiple producer nodes to have the same local ledger state update is by both using the same set of transactions. \\
-
-The first phase starts at $t = t_p = t_{n,0}$ and lasts for a period of time $\Delta t_{p}$, therefore ending at $t_p+\Delta t_{p}$.
+The first phase of the Catalyst consensus algorithm is the Construction Phase. Within which the selected producer nodes  $P$ calculate their proposed ledger state update or their local ledger state update. This is done by aggregating and validating all transactions that have occurred during a set time period. These transactions assuming their validity are integrated into the producers local ledger state update. From which they can create a hash of the update. This hash digest represents what they believe to be the correct update and is broadcast to the other producer nodes during for that cycle. Assuming the collision free nature of hash functions, the only mechanism for multiple producer nodes to have the same local ledger state update is by both using the same set of transactions. \\
 
 \subsubsection{Local partial ledger state update generation and broadcast}
 
-Each producer in the set of producers $P$ follows the same protocol. The construction phase begins with producer $P_i$ beginning their construction phase by flushing their mempool. This mempool is made up of $\{T_i\}_{i=1,..,n}$ [BE MORE CLEAR WITH THIS DEF] where $n$ is the number of transactions that have been broadcast to the network and have been stored by $P_i$. These transaction are used to create $P_i$'s local ledger state update $U_i$.  \\
+Each producer $p$ in the set of producers $P$ follows the same protocol. The construction phase begins with producer $p$ beginning their construction phase by flushing their mempool. This mempool $T$ is made up of $n$ transactions $t$  where $n$ is the number of transactions that have been broadcast to the network and have been stored by $p$. These transaction are used to create $p$'s local ledger state update $u$.  \\
 
-The producer at this point also creates a hash trees $d_i$, this is to store the the signatures that are extracted from each transaction in $T_i$. A salt $\sigma$ is created utilizing a pseudo-random number generator using the previous ledger state update $U_{n-1}$ as its seed. $P_i$ then follows the following steps: 
+The producer at this point also creates a hash trees $d$, this is to store the the signatures that are extracted from each transaction in $T$. A salt $\sigma$ is created utilizing a pseudo-random number generator using the previous ledger state update $U-1$ as its seed. $p$ then follows the following steps: 
 
 \begin{enumerate}
-\item Producer $P_i$ verifies that each transaction in $\{T_i\}_{i=1,..,n}$ is valid following the rules set out in [ADD CITATION FOR GITHUB WITH VALID TRANSACTION RULES]. From each of the transactions in $\{T_i\}_{i=1,..,n}$ the entries that constitute the transaction are extracted to form a list $\{E_\alpha\}_{\alpha=1,...,m}$. The producer should therefore end up with as many lists as there are valid transactions from $\{T_i\}_{i=1,..,n}$. each signature from the transactions are also extracted and added to $d_i$.
+\item Producer $p$ verifies that each transaction in $T$ is valid following the rules set out in \cite{transactionvalidator}. From each of the $n$ transactions in $T$ the entries $E$ that constitute the transaction $t$ are extracted to form a list $E = e_1,...,e_m$ for $m$ entries in $t$. The producer should therefore end up with $n$ lists for $E$ from $T$. each signature from the transactions are also extracted and added to $d$.
 
-\item $P_i$ for each $\{E_\alpha\}$ it created then creates a corresponding hash digest as: 
+\item $p$ for each $E$ it created then creates a corresponding hash digest as: 
 \begin{center}
-$O_\alpha [CHANGE THIS VARIABLE] = \mathcal{H}[E_\alpha~||~\sigma]$
+$L = \mathcal{H}[E~||~\sigma]$
 \end{center}
 
-Each pair ($E_\alpha,O_\alpha$) is added to a list $L_i$. 
+Each pair ($E,O$) is added to a list $L$. 
 
-\item $P_i$ then sorts list $L_i$ into lexicographical order according the hash values $O_\alpha$.
+\item $p$ then sorts list $L$ into lexicographical order according the hash values $O$.
 
-\item The producer $P_i$ then extracts the transaction fee value from each transaction in $\{Tx_i\}$ to create $v_i$ which is the total sum of all transaction fees. 
+\item The producer $p$ then extracts the transaction fee value from each transaction in $T$ to create $v$ which is the total sum of all transaction fees. 
 
-\item The local ledger state update $U_i$ for producer $P_i$ can then be calculated. Firstly the list $L_i$ is concatenated with the hashtree $d_i$ and a hash digest is created as: 
+\item The local ledger state update $u$ for producer $p$ can then be calculated. Firstly the list $L$ is concatenated (denoted by $||$) with the hashtree $d$ and a hash digest is created as: 
 
 \begin{center}
-$U_i = \mathcal{H}(L_i~||~d_i)$
+$u = \mathcal{H}(L~||~d)$
 \end{center}  
 
-$U_i$ is then concatenated with $P_i$'s unique peer identifier $Id_i$ to create:
+$u$ is then concatenated with $p$'s unique peer identifier $Id$ to create:
 
 \begin{center} 
-$h_i = U_i ~||~Id_i$
+$h = u ~||~Id$
 \end{center}
 
-\item $h_i$ is then broadcast to the other producer nodes on the network. 
+\item $h$ is then broadcast to the other producer nodes on the network. 
 \end{enumerate}
 
 \subsubsection{Partial ledger state update collection}
 
-[THIS SECTION NEEDS IMPROVING]
 
-Producer $P_i$ also collects other producers partial ledger update values. At most they will collect $P-1$ values. Optimally every producer in $P$ will receive the same set of transactions therefore for every $P_i \in P_{1,..,j}$ will have the same partial ledger update $U_j$. However this is unlikely due to all transaction not being received by a small group of nodes. Equally they may not hold $G_i$ where  $\{G_i\}_{i=h_1,..,h_j}$, meaning they may not receive a proposed update from all candidates. 
+Producer $p$ also collects other producers partial ledger update values. At most they will collect $P-1$ values. Optimally every producer in $P$ will receive the same set of transactions therefore for every $p$ in $P$ will have the same partial ledger update $u$. However this is unlikely due to all transactions not being received by a small group of nodes. Equally they may not hold $G$ where $G = h_1,...,h_P$, meaning they may not receive a proposed update from all candidates. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Campaigning Phase}
 
-The second phase of the consensus mechanism is where producer $P_i$ designates a candidate for what it calculates to be the most popular ledger state update. \\
+The second phase of the consensus mechanism is where producer $p$ designated as candidate for what it calculates to be the most popular ledger state update. \\
 
 \subsubsection{Local candidate generation and broadcast}
 
-Beginning this phase producer $P_i$ has a set of partial ledger updates $G_i$ that it has received from other producer nodes. Each $h_j$ within $G_i$ contains a producers hash of the proposed update ($U_j$ and their peer identifier ($Id_j$). The most popular $U_j$ value can be found, this gives us $U_j^{maj}$ from there the subset $G_{maj}$ can be created, which is the amount of votes for the most popular update. Two thresholds must be considered first is $G_min$ this is the minimum amount of updates it has received from other producers in order to generate a valid candidate. The second is $G_{thresh}$ this is the threshold value for which a minimum number of votes must be in favor of $G_{maj}$ which the most popular vote found within $G_i$.  So in order to proceed with declaring a candidate $G_i > G_{min}$ and $G_{maj} > G_{thresh}$. \\
+Beginning this phase producer $p$ has a set of partial ledger updates $G$ that it has received from other producer nodes. Each $h$ within $G$ contains a producers hash of the proposed update ($u$ and a peer identifier ($Id$). The most popular $u$ value can be found, this gives us $u^{maj}$ from there the subset $G_{maj}$ can be created, which is the amount of votes for the most popular update. Two thresholds must be considered first is $G_min$ this is the minimum amount of updates it has received from other producers in order to generate a valid candidate. The second is $G_{thresh}$ this is the threshold value for which a minimum number of votes must be in favor of $G_{maj}$ which the most popular vote found within $G$.  So in order to proceed with declaring a candidate $G > G_{min}$ and $G_{maj} > G_{thresh}$. \\
 
 If the thresholds are met the following can take place:
 
 \begin{enumerate}
-\item $P_i$ creates a list $\mathcal{L}_i(prod)$. To this list $P_i$ appends the identifier of any producer that correctly sent the $U_j$ value that equals $U_j^{maj}$. If $P_i$'s $U_i$ value is also the same as $U_j^{maj}$ then they should append their own $Id_i$.
-\item Producer $P_i$ then creates their candidate for the ledger update $c_i$ which is calculated as $c_i = U_j^{maj}~||~\#(\mathcal{L}_i(prod))~||~Id_i$
-\item Producer $P_i$ will then broadcast their preferred update $c_i$ to the other producers. 
+\item $p$ creates a list $\mathcal{L}(prod)$. To this list $p$ appends the identifier of any producer that correctly sent the $u$ value that equals $u^{maj}$. If $p$'s $u$ value is also the same as $u^{maj}$ then they should append their own $Id$.
+\item Producer $p$ then creates their candidate for the ledger update $c$ which is calculated as $c = u^{maj}~||~\#(\mathcal{L}(prod))~||~Id$
+\item Producer $p$ will then broadcast their preferred update $c$ to the other producers. 
 \end{enumerate}
 
 
 
 \subsubsection{Candidate collection}
 
-$P_i$ during this phase will be collecting the $c_j$ values from other producers. At the end of this cycle $P_i$ will hold a set $V_i$ candidates.
+$p$ during this phase will be collecting the $c$ values from other producers. At the end of this phase of the cycle $p$ will hold a set of $C$ candidates.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Voting Phase}
 
-The third phase of the ledger cycle is the Voting Phase within which a producer $P_i$ from the $V_i$ candidates it has recieved decides on what it belives should be the global ledger state update i.e. the update that should be applied to the ledger for that cycle. 
+The third phase of the ledger cycle is the Voting Phase within which a producer $p$ from the $C$ candidates it has received decides on what it believes should be the global ledger state update i.e. the update that should be applied to the ledger for that cycle. 
 
 
+\subsubsection{Ballot generation and broadcast}
+
+\begin{enumerate}
+\item $p$ verifies that the same first hash value $u^{maj}$ is embedded in a majority of producer candidates. 
+\item $p$ is required at this point to have created the majority ledger update. As only with this partial update can they participate effectively. Therefore their $u == u^{maj}$
+
+\end{enumerate}
+ 
+If each producer collects the first hash value generated by every producer, any two producers would build the same list of identifiers $\mathcal{L}(prod)$. However even in highly efficient distributed network it is unlikely that all producers will retrieve all information. Therefore it must be assumed that the list of identifiers held by $p$ is incomplete, $p$ however must ensure that they hold enough information to confidently issue a vote on the update to the ledger. The identifier of a producer is appended to the hash they distribute because: 
+
+\begin{itemize}
+\item To verify that $p$ is a producer node and that they infact were one of the winners of the random draw described in \ref{insert ref}. 
+\item To evaluate and track the quality of the work performed by $p$.
+\item To ensure that the correct producers withing $P$ are rewarded for their work maintaining the ledger. \\
+
+\end{itemize} 
+
+New transaction entries (coinbase entries) are created using the list's  $\mathcal{L}(prod)$ produced by the producers $p$. This allows reward and fees to be paid to the correct users. These new transaction entries will be appended to the final ledger state update for that cycle. Therefore a complete ledger state update should consist of: 
+
+\begin{itemize}
+\item The list of transaction entries integrated into the new ledger state all $E$ lists. 
+\item The transaction signatures from $T$ held in $d$. 
+\item Compensation entries rewarding the producers from $\mathcal{L}(prod)$. 
+
+\end{itemize} 
+
+
+The voting process thereby must confirm the correct list of identifiers involved in producing the correct ledger state updates. The final list for  $\mathcal{L}(prod)$ is generated by merging the producers lists together. In order for a producer $p$ to have their $Id$ added to the final  $\mathcal{L}(prod)$ the must appear in at least 50\% of the  $\mathcal{L}(prod)$ lists distributed by $P$. This ensures that no producer can just append their own $Id$ to their update whether that update was correct or not and gain a reward for it. \\
+
+
+As explained below the final list $\mathcal{L}_n(prod)$ is obtained by merging the partial lists included in the producers' candidate. A producer $P_j$ could have produced a first hash value $h_{\Delta j}$ different to $h^{maj}_{\Delta j}$ yet added his identifier to $\mathcal{L}_j(prod)$ when building its candidate $c_j$ in the attempt to collect some token reward. In such scenario $Id_j$ would be an element of the list included in $c_j$ (or any other producer node controlled by $P_j$), but it wouldn't be included in any other list $\{\mathcal{L}_k(prod)\} \forall~k \in P/j$. To prevent such malicious behaviour, a rule imposes that $P_j$ only appends to the final list $\mathcal{L}_n(prod)$ the identifier of a producer included in the list $\mathcal{L}_k(prod)$ of a candidate $c_k$ satisfying $h^{maj}_{\Delta k} = h^{maj}$ if and only if that identifier is included in at least $P/2$ lists $\{\mathcal{L}_{k}(prod)\}_{k=1,..,V_j}$ associated to a candidate $c_{k}$ satisfying $h^{maj}_{\Delta k} = h^{maj}$. Only a producer controlling half or more of the producer nodes would succeed in including its identifier into the final list $\mathcal{L}_n(prod)$.\\
+
+Although this eliminates the risk of unethical behavior from the producer, this also means that there would be little incentive for a producer to broadcast its vote if its identifier was not included in $\mathcal{L}_n(prod)$. However, the probability that a producer compiles the correct final list $\mathcal{L}_n(prod)$ strongly depends on the number of votes collected. The more votes collected by a producer, the greater the probability that said producer will compile the complete final list. Although a producer may not have produced the correct partial ledger state update, participating in the voting process is, therefore, an important contribution to the overall consensus protocol and should entitle the producer nodes to some reward. To that end a producer $P_j$ can use the identifier of other producers included in their vote and create a second list $\mathcal{L}_j(vote)$ to account for their participation in the voting process. \\
+ 
+$P_j$ follows a series of step for a period of time $\Delta t_{v0}$ ($\Delta t_{v0} < \Delta t_{v}$):
+
+\begin{enumerate}
+\item $P_j$ creates a new list $\mathcal{L}_j(vote)$ and appends to said list the identifier of any producer $P_k$ who forwarded a candidate $c_k$ satisfying $h^{maj}_{\Delta k} = h^{maj}$.
+\item $P_j$ creates the final list $\mathcal{L}_n(prod)$ and appends to said list the identifier of a producer included in the list $\mathcal{L}_k(prod)$ of a candidate $c_k$ satisfying $h^{maj}_{\Delta k} = h^{maj}$ if and only if that identifier is included in at least $P/2$ lists $\{\mathcal{L}_{k}(prod)\}_{k=1,..,V_j}$ associated to a candidate $c_{k}$ satisfying $h^{maj}_{\Delta k} = h^{maj}$. 
+\item $P_j$ then creates a list $L_{CE}$ of compensation entries for each producer whose identifier is included in $\mathcal{L}_n(prod)$. Each producer receives $x_h$ tokens. Assume that $ C_n \leq P$ identifiers are included in $\mathcal{L}_n(prod)$ and $X$ is the total number of tokens injected per cycle for the pool of $P$ producers. The quantity $x_h$ is defined such that $ C_nx_h = f_{prod}X + x_f$ where $x_f$ represents the total number of fees collected from the $m_{n-1}$ transactions and $f_{prod}$ represents the fraction of new tokens injected per cycle and distributed to the producers who built the correct ledger state update. The remaining $(1-f_{prod})X$ tokens are distributed to other contributing nodes in the network. A part of this remainder goes to the producers who voted correctly on the previous ledger cycle update. Let $\mathcal{L}_{n-1}(vote)$ be the list of the identifiers of producers who voted correctly on the previous ledger cycle update $\mathcal{C}_{n-1}$. We later demonstrate how such a list is derived during a ledger cycle. For now, let's assume that $L_{CE}$ includes compensation entries for producers involved the production of the ledger state update for this ledger cycle $\mathcal{C}_n$ and the producers involved in the voting process of the preceding cycle $\mathcal{C}_{n-1}$. 
+\item $P_j$ then creates the candidate ledger state update for $\mathcal{C}_n$ including the reward allocated to the producers for their contribution:
+\begin{center}
+$\mathbf{LSU_j = L^f_E~||~d_n~||~L_{CE}}$
+\end{center}
+$P_j$ then computes its vote (or \textit{producer vote}):
+\begin{equation}
+\label{eq:vj}
+\fbox{$v_j = \mathcal{H}(LSU_j)~||~\#(\mathcal{L}_j(vote))~||~Id_j$}
+\end{equation}
+
+which includes the hash of the candidate ledger state update (or \textit{second hash value}) and a partial list of identifiers of producers who designated the correct candidate partial ledger state update corresponding to $h^{maj}$. 
+
+\item $P_j$ then forwards $v_j$ to the other producers and collects the producer votes issued by its peers. Figure \ref{fig:Vot} illustrates the different steps followed by $P_j$ during the voting phase.
+
+\end{enumerate}
+
+
+\subsubsection{Ballot collection}
+During the voting phase, the producer $P_j$ collects the producer votes broadcast by its peers. At the end of the voting phase ($t = t_v+\Delta t_{v}$), the producer $P_j$ holds $U_j$ producer votes in its cache with $U_j \leq C_n$ where $C_n \leq P$ is the actual total number of producers who correctly computed $h^{maj}$.
 
 \subsection{Synchronisation Phase}
+
+\subsubsection{Final ledger state update generation and broadcast}
+
+The last phase (\textit{a.k.a} synchronisation phase) of a ledger cycle starts at $t = t_s$, with $t_s = t_{n,0} + \Delta t_{p} + \Delta t_{c}+ \Delta t_{v}$, and lasts for a period of time $\Delta t_{s}$, therefore ending at $t_s+\Delta t_s = t_{n,0} + \Delta t_{cycle}$.
+
+During a period of time $\Delta t_{s0} < \Delta t_{s}$, $P_j$ executes the following steps:
+
+\begin{enumerate}
+\item $P_j$ defines the ledger state update $\Delta L_n$ for the cycle $\mathcal{C}_n$ as:\\
+ $\mathcal{H}(\Delta L_n) = max[unique(\mathcal{H}(LSU_k))~\forall~k\in\{U_j\}]$ and the associated number of votes collected: $U^{maj} = count[(\mathcal{H}(LSU_k) = \mathcal{H}(\Delta L_n))~\forall~k\in\{U_j\}]$ and verifies that $U^{maj}> U_{threshold}$.
+\item $P_j$ creates a new list $\mathcal{L}_{n}(vote)$ and append to $\mathcal{L}_{n}(vote)$ the identifier of a producer included in the list $\mathcal{L}_{k}(vote)$ of a vote $v_k$ satisfying $\mathcal{H}(LSU_k) = \mathcal{H}(\Delta L_n)$ if and only if the identifier is included in at least $C_n/2$ lists $\{\mathcal{L}_{k}(vote)\}$ associated to a producer vote $v_{k}$ satisfying $\mathcal{H}(LSU_k) = \mathcal{H}(\Delta L_n)$. Note that $C_n$ can be easily computed as it corresponds to the number of producer identifiers who correctly computed the ledger state update and are therefore included in $\mathcal{L}_{n}(prod)$.
+
+\item If $P_j$ generated the correct ledger state update $\Delta L_n$, it can write it to DFS which will return it with a content-based address $\mathcal{A}_n$. 
+\item A Producer $P_j$ then creates the following output quantity (or \textit{producer output}):
+\begin{equation} 
+\fbox{$\mathbf{o_{j} = \mathcal{A}_n~||~\#(\mathcal{L}_{n}(vote))~||~Id_j}$}
+\label{eq:Hj}
+\end{equation}
+The producer then broadcasts $o_j$ to the network.
+\end{enumerate}
+
+
+\subsubsection{Ledger state synchronisation across the network}
+
+During the time period [$t_{s}, t_s + \Delta t_{cycle}$], user nodes collect $\{o_k\}_{\forall k \in P}$ producer outputs broadcast by the producers. 
+By extracting the identifier $Id_k$ embedded in any collected output $o_k$, a user node can easily compile a list of producer identifiers having broadcast the same second hash value $\mathcal{H}(\Delta L_n)$ (concatenated with the same list $\mathcal{L}_{n}(vote)$). Upon receiving $x > P/2$ identical addresses $\{\mathcal{A}_k = \mathcal{A}_n\}_{k \in x}$, the user nodes can read the common address content ($\Delta L_n$) from DFS. Using $\Delta L_n$ a user node can safely synchronise their local copy of the ledger and write it to their DFS if not already done. The balance of accounts stored on the ledger are updated and the producers effectively collect their rewards.\\
+
+
+Worker nodes also store the list $\mathcal{L}_{n}(vote)$ embedded in each $o_k$ output. If selected to be a producer for the next cycle $\mathcal{C}_{n+1}$, a worker can use it to generate the reward allocated to the producers who correctly voted for the accurate ledger state update during the ledger cycle $\mathcal{C}_{n}$.\\
+
+Figure~\ref{fig:cycle} summarises the different phases of the ledger cycle.\\
+
+The various parameters and thresholds mentioned in this chapter and their impact on the levels of security and confidence in the successful production of a ledger state update are discussed in section~\ref{Sec:SecLsu}.
+
+
 
 \bibliography{catalyst-technical-whitepaper}
 \bibliographystyle{ieeetr}
