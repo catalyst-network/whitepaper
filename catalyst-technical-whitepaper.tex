@@ -20,10 +20,10 @@
 \usepackage{rotating}
 \usepackage{epstopdf}
 \usepackage{pdflscape}
-\usepackage[margin=1.0in]{geometry}
+\usepackage[margin=1.2in]{geometry}
 
 
-\title{\textbf{Catalyst Network - Technical White Paper}}
+\title{\textbf{Catalyst Network - Technical White Paper (DRAFT - V1)}}
 \date{\today}
 \author{Joseph Kearney\thanks{joseph.kearney@atlascity.io} - Atlas City}
 
@@ -36,7 +36,12 @@
 
 \abstract 
 
-hello
+Distributed Ledger Technology (DLT), over the last decade have grown at an extraordinary rate, with new technologies being announced, developed and released on a daily basis. While a majority of these technologies have not progressed from the original concepts set out by Satoshi Nakamoto in his seminal paper \cite{nakamoto2008bitcoin} with regards to speed, security, scalability and decentralisation. There has however been a clear demonstration for the appetite and innovation for wider markets to adopt these technologies. Catalyst marries together many existing technologies as well as some novel ones in order to create a framework which give as fast, scalable and fair ledger.
+
+\begin{center}
+\vspace{50mm}
+\textbf{This document is a work in progress and is subject to change.}
+\end{center}
 
 \newpage
 
@@ -46,13 +51,63 @@ hello
 
 \section*{Introduction}
 
+DLTs are based upon the principle of a truly distributed network, allowing nodes on the network to transact both messages and objects. Whether that be tokens, messages, timestamps or even rich file types. Distributed networks have many advantages over centralised systems, particularly the prevention of any one entity from holding too much influence within a system thereby allowing them to perform unfair or malicious acts, furthermore they allow trustless transactions, meaning that you do not have to trust a single person on the network, rather trust the network as a whole. However, for these advantages there are also many problems to overcome, particularly how do you fairly and efficiently ensure consensus among the network is reached, how are the file stored without causing the network to become extremely bloated and also how do you compute complex business logic across a network as efficiently if not more so than on a centralised network. These are all problems that have been considered in the design process of Catalyst. \\ 
+
+The first problem described was ensuring a fair consensus mechanism. The network coming to agreement on what transactions on a distributed network are fair and valid and those that are not are is a key issue. Early blockchain and DLTs utilised proof of work, this originates from hashcash \cite{back2002hashcash}, which was designed as a prevention mechanism for email spam. This idea was then developed for the bitcoin blockchain, it required miners to perform a computationally hard problem in order for them to expend energy and there by resources. This dissuades mining nodes from acting maliciously, as both the transactions they have added as well as the work they have performed can be verified. If there work is poor then the block they are trying to append to the blockchain will be rejected. This technique for consensus is Byzantine fault tolerant and can not be understated as the critical factor that allowed blockchain technologies to grow. However, this has two critical flaws, firstly the amount of expended and wasted energy is extraordinary especially on large networks where the potential rewards are large \\
+
+
+
+
+The technologies discussed in this paper are:
+
+\begin{itemize}
+\item The Distributed File System (DFS) - Catalyst integrates a distributed file system meaning that there is a separation between the ledger and what is stored on the ledger. 
+\item The Kat Virtual Machine (KVM) - Based upon the innovative Ethereum Virtual Machine (EVM), the KVM improves and extends on the EVM. It allows smart contracts to be run on Catalyst. 
+\item The Probabilistic Byzantine Fault Tolerant (PBFT) consensus algorithm. This new consensus algorithm allows a fair and scalable mechanism for consensus and updates to the ledger to be agreed upon.  
+\end{itemize}
+
+
+
 \section{Distributed File System}
 
-Catalyst integrates its own DFS based on the InterPlanetery File System (IPFS) protocol \cite{benet2014ipfs}.
+Catalyst integrates its own Distributed File System (DFS) \cite{DFS} based on the InterPlanetary File System (IPFS) protocol \cite{benet2014ipfs}. DFS as the name suggests are peer to peer file systems, where the files contained within are distributed across a range of peers (and thereby accessible to those peers). This file system unlike others that rely on centralized servers will have no down time nor are a single point of failure, meaning that they are persistent in a way that other file storage technologies are not. \\
+
+On the Catalyst network every node holds a DFS module. This means that while all nodes will not hold all the information stored of the DFS they will be able to query and retrieve information that is of value to them. Furthermore, nodes will simply have the ability to query the existence of a file rather than being forced to download the file in order to check
+its existence. \\                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+
+Integrating DFS allows the Catalyst network to remain lean as nodes on the network can choose to store only the data that they choose to hold. Furthermore, it allows the storage of many rich file types in a distributed manor, meaning that they are always accessible with no down time guaranteed. In this section is a description of the IPFS platform that Catalyst uses, and then how Catalyst integrates this into its ecosystem. 
+
+
+\subsection{IPFS}
+
+The InterPlanetary File System forms the basis of the Catalyst DFS. IPFS is simply a file system, this can be used to store retrieve and distribute files to other peers. It is itself based on a distributed network, meaning that there is no one central entity that holds and controls the flow of information. \\
+
+An advantage that IPFS has compared to traditional computer filing systems where the URL or file path describe its location, on IPFS what is contained in the file is declared, this is called content addressing, this is using a Content Identifier (CID). This CID is a hash of the contents of the file, thereby changing the contents would change the hash and thereby the CID. Through content addressing, a malicious entity would not be able to send a user a false file in the place of the on that they have requested. This is due to the hardness of reversing a hashing function.\\
+
+Once a file has a CID associated with it a distributed hash table can be formed. Distributed hash tables are key-value stores, which which the elements are held as hashes. The CID becomes the key element. Any peers that hold the file have their ID's associated with the file.  \\
+
+IPFS integrates Merkle Directed Acyclic Graphs (Merkle DAGs). Merkle DAGs are used to form linkages between blocks of information. For example if an entire folder is added to IPFS, the entire folder would have a CID, but additionally the constituent elements would also. The leaf nodes would be formed of the constituent files. 
+
+
+\subsection{Integrating the DFS}
+
+Each node on the running on the catalyst network must also be running the DFS module. This allows them on the most basic level to access the current state of the ledger and the validate previous updates to the ledger thereby allowing them to sync with the current ledger state. \\
+
+The primary difference between the native IPFS protocol and the implementation utilised on Catalyst is how the peer ID's are created.  While on the IPFS protocol the identifier for nodes is selected randomly, on Catalyst the nodeso n the network will each have their own individual peer identifier\cite{BytesExtentions} made up of:
+
+\begin{itemize}
+\item IP address
+\item Port number
+\item Public key
+\end{itemize}
+
+
+
+\subsection{The Marketplace}
 
 \section{KVM}
 
-The Catalyst network 
+The Catalyst network \cite{KVM}
 
 \subsection{From the EVM}
 
@@ -66,6 +121,7 @@ On distributed networks there is no single point of trust to determine the valid
 
 Catalyst integrates a newly designed consensus mechanism, based on Probabilistic Byzantine Fault Tolerance (PBFT).  This is a collaborative rather than competitive protocol, meaning that all honest work performed by nodes on the network benefits the security of the network and that all participating nodes are rewarded equally. For each ledger cycle a random selection of worker nodes are selected, the nodes become the producers for a cycle or number of cycles. The producer nodes perform work in the form of compiling and validating transaction thereby extracting a ledger state change for that cycle. \\
 
+
 The protocol is split into four distinct phases:
 
 \begin{itemize}
@@ -76,6 +132,8 @@ The protocol is split into four distinct phases:
 \item Synchronisation Phase - In this phase the producers who have computed the correct ledger update can broadcast this update the rest of the network. 
 
 \end{itemize} 
+
+This section is based on the work set out in \cite{catalystresearch}, where the original research into the creation of a new consensus mechanism are laid out. 
 
 \subsection{Notation} 
 
@@ -173,7 +231,7 @@ The second phase of the consensus mechanism is where producer $p$ designated as 
 
 \subsubsection{Local candidate generation and broadcast}
 
-Beginning this phase producer $p$ has a set of partial ledger updates $G$ that it has received from other producer nodes. Each $h$ within $G$ contains a producers hash of the proposed update ($u$ and a peer identifier ($Id$). The most popular $u$ value can be found, this gives us $u^{maj}$ from there the subset $G_{maj}$ can be created, which is the amount of votes for the most popular update. Two thresholds must be considered first is $G_min$ this is the minimum amount of updates it has received from other producers in order to generate a valid candidate. The second is $G_{thresh}$ this is the threshold value for which a minimum number of votes must be in favor of $G_{maj}$ which the most popular vote found within $G$.  So in order to proceed with declaring a candidate $G > G_{min}$ and $G_{maj} > G_{thresh}$. \\
+Beginning this phase producer $p$ has a set of partial ledger updates $G$ that it has received from other producer nodes. Each $h$ within $G$ contains a producers hash of the proposed update ($u$ and a peer identifier ($Id$). The most popular $u$ value can be found, this gives us $u^{maj}$ from there the subset $G_{maj}$ can be created, which is the amount of votes for the most popular update. Two thresholds must be considered first is $G_{min}$ this is the minimum amount of updates it has received from other producers in order to generate a valid candidate. The second is $G_{thresh}$ this is the threshold value for which a minimum number of votes must be in favor of $G_{maj}$ which the most popular vote found within $G$.  So in order to proceed with declaring a candidate $G > G_{min}$ and $G_{maj} > G_{thresh}$. \\
 
 If the thresholds are met the following can take place:
 
@@ -208,65 +266,64 @@ The third phase of the ledger cycle is the Voting Phase within which a producer 
 If each producer collects the first hash value generated by every producer, any two producers would build the same list of identifiers $\mathcal{L}(prod)$. However even in highly efficient distributed network it is unlikely that all producers will retrieve all information. Therefore it must be assumed that the list of identifiers held by $p$ is incomplete, $p$ however must ensure that they hold enough information to confidently issue a vote on the update to the ledger. The identifier of a producer is appended to the hash they distribute because: 
 
 \begin{itemize}
-\item To verify that $p$ is a producer node and that they infact were one of the winners of the random draw described in \ref{insert ref}. 
+\item To verify that $p$ is a producer node and that they in fact were one of the winners of the random draw described in \ref{insert ref}. 
 \item To evaluate and track the quality of the work performed by $p$.
 \item To ensure that the correct producers withing $P$ are rewarded for their work maintaining the ledger. \\
 
 \end{itemize} 
 
-New transaction entries (coinbase entries) are created using the list's  $\mathcal{L}(prod)$ produced by the producers $p$. This allows reward and fees to be paid to the correct users. These new transaction entries will be appended to the final ledger state update for that cycle. Therefore a complete ledger state update should consist of: 
+New transaction entries (compensation entries) are created using the list's  $\mathcal{L}(prod)$ produced by the producers $p$. This allows reward and fees to be paid to the correct users. These new transaction entries will be appended to the final ledger state update for that cycle. Therefore a complete ledger state update should consist of: 
 
 \begin{itemize}
 \item The list of transaction entries integrated into the new ledger state all $E$ lists. 
 \item The transaction signatures from $T$ held in $d$. 
 \item Compensation entries rewarding the producers from $\mathcal{L}(prod)$. 
 
-\end{itemize} 
+\end{itemize}
 
+The voting process thereby must confirm the correct list of identifiers involved in producing the correct ledger state updates. The final list for  $\mathcal{L}(prod)$ is generated by merging the producers lists together. In order for a producer $p$ to have their $Id$ added to the final  $\mathcal{L}(prod)$ the must appear in at least 50\% of the  $\mathcal{L}(prod)$ lists distributed by $P$. This ensures that no producer can just append their own $Id$ to their update whether that update was correct or not and gain a reward for it.  \\
 
-The voting process thereby must confirm the correct list of identifiers involved in producing the correct ledger state updates. The final list for  $\mathcal{L}(prod)$ is generated by merging the producers lists together. In order for a producer $p$ to have their $Id$ added to the final  $\mathcal{L}(prod)$ the must appear in at least 50\% of the  $\mathcal{L}(prod)$ lists distributed by $P$. This ensures that no producer can just append their own $Id$ to their update whether that update was correct or not and gain a reward for it. \\
-
-
-As explained below the final list $\mathcal{L}_n(prod)$ is obtained by merging the partial lists included in the producers' candidate. A producer $P_j$ could have produced a first hash value $h_{\Delta j}$ different to $h^{maj}_{\Delta j}$ yet added his identifier to $\mathcal{L}_j(prod)$ when building its candidate $c_j$ in the attempt to collect some token reward. In such scenario $Id_j$ would be an element of the list included in $c_j$ (or any other producer node controlled by $P_j$), but it wouldn't be included in any other list $\{\mathcal{L}_k(prod)\} \forall~k \in P/j$. To prevent such malicious behaviour, a rule imposes that $P_j$ only appends to the final list $\mathcal{L}_n(prod)$ the identifier of a producer included in the list $\mathcal{L}_k(prod)$ of a candidate $c_k$ satisfying $h^{maj}_{\Delta k} = h^{maj}$ if and only if that identifier is included in at least $P/2$ lists $\{\mathcal{L}_{k}(prod)\}_{k=1,..,V_j}$ associated to a candidate $c_{k}$ satisfying $h^{maj}_{\Delta k} = h^{maj}$. Only a producer controlling half or more of the producer nodes would succeed in including its identifier into the final list $\mathcal{L}_n(prod)$.\\
+As explained below the final list $\mathcal{L}_n(prod)$ is obtained by merging the partial lists included in the producers' candidate. A producer $P_j$ could have produced a first hash value $h_{\Delta j}$ different to $h^{maj}_{\Delta j}$ yet added his identifier to $\mathcal{L}_j(prod)$ when building its candidate $c_j$ in the attempt to collect some token reward. In such scenario $Id_j$ would be an element of the list included in $c_j$ (or any other producer node controlled by $P_j$), but it wouldn't be included in any other list $\{\mathcal{L}_k(prod)\} \forall~k \in P/j$. To prevent such malicious behavior, a rule imposes that $P_j$ only appends to the final list $\mathcal{L}_n(prod)$ the identifier of a producer included in the list $\mathcal{L}_k(prod)$ of a candidate $c_k$ satisfying $h^{maj}_{\Delta k} = h^{maj}$ if and only if that identifier is included in at least $P/2$ lists $\{\mathcal{L}_{k}(prod)\}_{k=1,..,V_j}$ associated to a candidate $c_{k}$ satisfying $h^{maj}_{\Delta k} = h^{maj}$. Only a producer controlling half or more of the producer nodes would succeed in including its identifier into the final list $\mathcal{L}_n(prod)$.\\
 
 Although this eliminates the risk of unethical behavior from the producer, this also means that there would be little incentive for a producer to broadcast its vote if its identifier was not included in $\mathcal{L}_n(prod)$. However, the probability that a producer compiles the correct final list $\mathcal{L}_n(prod)$ strongly depends on the number of votes collected. The more votes collected by a producer, the greater the probability that said producer will compile the complete final list. Although a producer may not have produced the correct partial ledger state update, participating in the voting process is, therefore, an important contribution to the overall consensus protocol and should entitle the producer nodes to some reward. To that end a producer $P_j$ can use the identifier of other producers included in their vote and create a second list $\mathcal{L}_j(vote)$ to account for their participation in the voting process. \\
  
-$P_j$ follows a series of step for a period of time $\Delta t_{v0}$ ($\Delta t_{v0} < \Delta t_{v}$):
+$p$ follows a series of steps:
 
 \begin{enumerate}
-\item $P_j$ creates a new list $\mathcal{L}_j(vote)$ and appends to said list the identifier of any producer $P_k$ who forwarded a candidate $c_k$ satisfying $h^{maj}_{\Delta k} = h^{maj}$.
-\item $P_j$ creates the final list $\mathcal{L}_n(prod)$ and appends to said list the identifier of a producer included in the list $\mathcal{L}_k(prod)$ of a candidate $c_k$ satisfying $h^{maj}_{\Delta k} = h^{maj}$ if and only if that identifier is included in at least $P/2$ lists $\{\mathcal{L}_{k}(prod)\}_{k=1,..,V_j}$ associated to a candidate $c_{k}$ satisfying $h^{maj}_{\Delta k} = h^{maj}$. 
-\item $P_j$ then creates a list $L_{CE}$ of compensation entries for each producer whose identifier is included in $\mathcal{L}_n(prod)$. Each producer receives $x_h$ tokens. Assume that $ C_n \leq P$ identifiers are included in $\mathcal{L}_n(prod)$ and $X$ is the total number of tokens injected per cycle for the pool of $P$ producers. The quantity $x_h$ is defined such that $ C_nx_h = f_{prod}X + x_f$ where $x_f$ represents the total number of fees collected from the $m_{n-1}$ transactions and $f_{prod}$ represents the fraction of new tokens injected per cycle and distributed to the producers who built the correct ledger state update. The remaining $(1-f_{prod})X$ tokens are distributed to other contributing nodes in the network. A part of this remainder goes to the producers who voted correctly on the previous ledger cycle update. Let $\mathcal{L}_{n-1}(vote)$ be the list of the identifiers of producers who voted correctly on the previous ledger cycle update $\mathcal{C}_{n-1}$. We later demonstrate how such a list is derived during a ledger cycle. For now, let's assume that $L_{CE}$ includes compensation entries for producers involved the production of the ledger state update for this ledger cycle $\mathcal{C}_n$ and the producers involved in the voting process of the preceding cycle $\mathcal{C}_{n-1}$. 
-\item $P_j$ then creates the candidate ledger state update for $\mathcal{C}_n$ including the reward allocated to the producers for their contribution:
+\item $p$ generates a list $\mathcal{L}(vote)$ it then appends the $Id$ of any other $p$ that has forwarded a $C$ candidate that satisfies $u == u^{maj}$. 
+\item $p$ creates the combined list for $\mathcal{L}(prod)$ of any $p$ from $P$ that appears in $P/2$ lists. 
+\item Then $p$ creates a list $L_{CE}$. This contains the contribution entries. This is for any user that is included in the combined $\mathcal{L}(prod)$. Each of these producers contained within this list will receive $x$ tokens. If it is considered that $X$ is the total number of tokens that are injected into the network at each cycle for the pool of $P$ producers. The amount of entries into $L_{CE}$ will be less than or equal to $P$. $R$ is to be considered the total amount of reward that is to be split among all the producers that found the correct ledger update $R = f_{prod}X + v$ where $f_prod$ is the fraction of the injected tokens that are given to users found in the combined $L_{prod}$. While $(1-f_{prod})X$ is the value that is distributed to other nodes that have performed work. 
+\item Producer $p$ can then create the candidate ledger state update for this cycle. This includes the reward allocations for producers according to their contributions. This ledger state update $LSU$ can be defined as:
+
 \begin{center}
-$\mathbf{LSU_j = L^f_E~||~d_n~||~L_{CE}}$
+$\mathbf{LSU = L~||~d~||~L_{CE}}$
 \end{center}
-$P_j$ then computes its vote (or \textit{producer vote}):
-\begin{equation}
-\label{eq:vj}
-\fbox{$v_j = \mathcal{H}(LSU_j)~||~\#(\mathcal{L}_j(vote))~||~Id_j$}
-\end{equation}
 
-which includes the hash of the candidate ledger state update (or \textit{second hash value}) and a partial list of identifiers of producers who designated the correct candidate partial ledger state update corresponding to $h^{maj}$. 
 
-\item $P_j$ then forwards $v_j$ to the other producers and collects the producer votes issued by its peers. Figure \ref{fig:Vot} illustrates the different steps followed by $P_j$ during the voting phase.
+$p$ then computes its vote (or \textit{producer vote}):
+\begin{center}
+\fbox{$V = \mathcal{H}(LSU)~||~\#(\mathcal{L}(vote))~||~Id$}
+\end{center}
+
+
+\item $p$ then forwards their $V$ to the other producers and collects the producer votes $V$ issued by its peers.
 
 \end{enumerate}
 
 
 \subsubsection{Ballot collection}
-During the voting phase, the producer $P_j$ collects the producer votes broadcast by its peers. At the end of the voting phase ($t = t_v+\Delta t_{v}$), the producer $P_j$ holds $U_j$ producer votes in its cache with $U_j \leq C_n$ where $C_n \leq P$ is the actual total number of producers who correctly computed $h^{maj}$.
+During the voting phase, the producer $p$ collects the producer votes $V$ broadcast by its peers. At the end of the voting phase , the producer $p$ holds $U$ producer votes $V$ in its cache. This will be equal to or less than the number of producers who formed the correct update. 
 
 \subsection{Synchronisation Phase}
 
 \subsubsection{Final ledger state update generation and broadcast}
 
-The last phase (\textit{a.k.a} synchronisation phase) of a ledger cycle starts at $t = t_s$, with $t_s = t_{n,0} + \Delta t_{p} + \Delta t_{c}+ \Delta t_{v}$, and lasts for a period of time $\Delta t_{s}$, therefore ending at $t_s+\Delta t_s = t_{n,0} + \Delta t_{cycle}$.
 
-During a period of time $\Delta t_{s0} < \Delta t_{s}$, $P_j$ executes the following steps:
+
+During the synchronisation phase $p$ executes the following steps:
 
 \begin{enumerate}
-\item $P_j$ defines the ledger state update $\Delta L_n$ for the cycle $\mathcal{C}_n$ as:\\
+\item $p$ defines the ledger state update $\Delta L_n$ for the cycle $\mathcal{C}_n$ as:\\
  $\mathcal{H}(\Delta L_n) = max[unique(\mathcal{H}(LSU_k))~\forall~k\in\{U_j\}]$ and the associated number of votes collected: $U^{maj} = count[(\mathcal{H}(LSU_k) = \mathcal{H}(\Delta L_n))~\forall~k\in\{U_j\}]$ and verifies that $U^{maj}> U_{threshold}$.
 \item $P_j$ creates a new list $\mathcal{L}_{n}(vote)$ and append to $\mathcal{L}_{n}(vote)$ the identifier of a producer included in the list $\mathcal{L}_{k}(vote)$ of a vote $v_k$ satisfying $\mathcal{H}(LSU_k) = \mathcal{H}(\Delta L_n)$ if and only if the identifier is included in at least $C_n/2$ lists $\{\mathcal{L}_{k}(vote)\}$ associated to a producer vote $v_{k}$ satisfying $\mathcal{H}(LSU_k) = \mathcal{H}(\Delta L_n)$. Note that $C_n$ can be easily computed as it corresponds to the number of producer identifiers who correctly computed the ledger state update and are therefore included in $\mathcal{L}_{n}(prod)$.
 
@@ -288,7 +345,6 @@ By extracting the identifier $Id_k$ embedded in any collected output $o_k$, a us
 
 Worker nodes also store the list $\mathcal{L}_{n}(vote)$ embedded in each $o_k$ output. If selected to be a producer for the next cycle $\mathcal{C}_{n+1}$, a worker can use it to generate the reward allocated to the producers who correctly voted for the accurate ledger state update during the ledger cycle $\mathcal{C}_{n}$.\\
 
-Figure~\ref{fig:cycle} summarises the different phases of the ledger cycle.\\
 
 The various parameters and thresholds mentioned in this chapter and their impact on the levels of security and confidence in the successful production of a ledger state update are discussed in section~\ref{Sec:SecLsu}.
 
