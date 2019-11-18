@@ -1,0 +1,30 @@
+\subsubsection{Final ledger state update generation and broadcast}
+
+
+During the synchronisation phase $p$ executes the following steps:
+
+\begin{enumerate}
+\item $p$ defines the ledger state update $\Delta L_n$ for the cycle $\mathcal{C}_n$ as:\\
+ $\mathcal{H}(\Delta L_n) = max[unique(\mathcal{H}(LSU_k))~\forall~k\in\{U_j\}]$ and the associated number of votes collected: $U^{maj} = count[(\mathcal{H}(LSU_k) = \mathcal{H}(\Delta L_n))~\forall~k\in\{U_j\}]$ and verifies that $U^{maj}> U_{threshold}$.
+\item $P_j$ creates a new list $\mathcal{L}_{n}(vote)$ and append to $\mathcal{L}_{n}(vote)$ the identifier of a producer included in the list $\mathcal{L}_{k}(vote)$ of a vote $v_k$ satisfying $\mathcal{H}(LSU_k) = \mathcal{H}(\Delta L_n)$ if and only if the identifier is included in at least $C_n/2$ lists $\{\mathcal{L}_{k}(vote)\}$ associated to a producer vote $v_{k}$ satisfying $\mathcal{H}(LSU_k) = \mathcal{H}(\Delta L_n)$. Note that $C_n$ can be easily computed as it corresponds to the number of producer identifiers who correctly computed the ledger state update and are therefore included in $\mathcal{L}_{n}(prod)$.
+
+\item If $P_j$ generated the correct ledger state update $\Delta L_n$, it can write it to DFS which will return it with a content-based address $\mathcal{A}_n$.
+\item A Producer $P_j$ then creates the following output quantity (or \textit{producer output}):
+\begin{equation}
+\fbox{$\mathbf{o_{j} = \mathcal{A}_n~||~\#(\mathcal{L}_{n}(vote))~||~Id_j}$}
+\label{eq:Hj}
+\end{equation}
+The producer then broadcasts $o_j$ to the network.
+\end{enumerate}
+
+
+\subsubsection{Ledger state synchronisation across the network}
+
+During the time period [$t_{s}, t_s + \Delta t_{cycle}$], user nodes collect $\{o_k\}_{\forall k \in P}$ producer outputs broadcast by the producers.
+By extracting the identifier $Id_k$ embedded in any collected output $o_k$, a user node can easily compile a list of producer identifiers having broadcast the same second hash value $\mathcal{H}(\Delta L_n)$ (concatenated with the same list $\mathcal{L}_{n}(vote)$). Upon receiving $x > P/2$ identical addresses $\{\mathcal{A}_k = \mathcal{A}_n\}_{k \in x}$, the user nodes can read the common address content ($\Delta L_n$) from DFS. Using $\Delta L_n$ a user node can safely synchronise their local copy of the ledger and write it to their DFS if not already done. The balance of accounts stored on the ledger are updated and the producers effectively collect their rewards.\\
+
+
+Worker nodes also store the list $\mathcal{L}_{n}(vote)$ embedded in each $o_k$ output. If selected to be a producer for the next cycle $\mathcal{C}_{n+1}$, a worker can use it to generate the reward allocated to the producers who correctly voted for the accurate ledger state update during the ledger cycle $\mathcal{C}_{n}$.\\
+
+
+The various parameters and thresholds mentioned in this chapter and their impact on the levels of security and confidence in the successful production of a ledger state update are discussed in the paper found here \cite{catalystresearch2}.
