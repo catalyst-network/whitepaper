@@ -51,7 +51,7 @@ Distributed Ledger Technologies (DLTs) over the last decade have grown at an ext
 
 \section*{Introduction}
 
-DLTs are based upon the principle of a truly distributed network, allowing nodes on the network to transact both messages and objects. Whether that be tokens, messages, timestamps or even rich file types. Distributed networks have many advantages over centralised systems, particularly the prevention of any one entity from holding too much influence within a system thereby allowing them to perform unfair or malicious acts, furthermore they allow trustless transactions, meaning that you do not have to trust a single person on the network, rather trust the network as a whole. However, for these advantages there are also many problems to overcome, particularly how do you fairly and efficiently ensure consensus among the network is reached, how are the file stored without causing the network to become extremely bloated and also how do you compute complex business logic across a network as efficiently if not more so than on a centralised network. These are all problems that have been considered in the design process of Catalyst. \\
+DLTs are based upon the principle of a truly distributed network, allowing nodes on the network to transact both messages and objects, whether these are tokens, messages, timestamps or even rich file types. Distributed networks have many advantages over centralised systems. They prevent any one entity from holding too much influence within a system, inhibiting the influence of an unfair or malicious actor. Further, they allow trustless transactions, meaning that no member of a network has to trust any other single member on the network, and instead they facilitate trust of the network as a whole. However, distributed networks also prevent difficult challenges: particularly how do you fairly and efficiently ensure consensus among the network is reached, how are the files stored without causing the network to become extremely bloated, and how do you compute complex business logic at least as efficiently as on a centralised network. These are all problems that have been considered in the design process of Catalyst. \\
 
 The first problem described was ensuring a fair consensus mechanism. The network coming to agreement on what transactions on a distributed network are fair and valid and those that are not are is a key issue. Early blockchain and DLTs utilised proof of work, this originates from hashcash \cite{back2002hashcash}, which was designed as a prevention mechanism for email spam. This idea was then developed for the bitcoin blockchain, it required miners to perform a computationally hard problem in order for them to expend energy and there by resources. This dissuades mining nodes from acting maliciously, as both the transactions they have added as well as the work they have performed can be verified. If their work is poor then the block they are trying to append to the blockchain will be rejected. This technique for consensus is Byzantine fault tolerant and can not be understated as the critical factor that allowed blockchain technologies to grow. However, this has two critical flaws, firstly the amount of expended and wasted energy is extraordinary especially on large networks where the potential rewards are large \\
 
@@ -70,36 +70,40 @@ The technologies discussed in this paper are:
 
 \section{Distributed File System}
 
-Catalyst integrates its own Distributed File System (DFS) \cite{DFS} based on the InterPlanetary File System (IPFS) protocol \cite{benet2014ipfs}. DFS as the name suggests are peer to peer file systems, where the files contained within are distributed across a range of peers (and thereby accessible to those peers). This file system unlike others that rely on centralized servers will have no down time nor are a single point of failure, meaning that they are persistent in a way that other file storage technologies are not. \\
+Catalyst integrates its own Distributed File System (DFS) \cite{DFS} based on the InterPlanetary File System (IPFS) protocol \cite{benet2014ipfs}. DFS, as the name suggests, is a peer to peer file system, where the files contained within are distributed across and accessible to a range of peers. This file system will have no down time nor any single point of failure, meaning that they are persistent in a way that other, centralised file storage technologies are not. \\ % Why is DFS different than IPFS? Why not use IPFS directly? What is different in your implementation?
 
-On the Catalyst network every node holds a DFS module. This means that while all nodes will not hold all the information stored of the DFS they will be able to query and retrieve information that is of value to them. Furthermore, nodes will simply have the ability to query the existence of a file rather than being forced to download the file in order to check
-its existence. \\
+On the Catalyst network every node holds a DFS module. While all nodes will not hold all of the information stored on the DFS, they will be able to query and retrieve any information on the network. Furthermore, nodes will have the ability to query the existence of a file rather than being forced to download the file in order to check its existence. \\ % What information will the nodes be forced to have? Does every node have its own garbage collection implemented? How will they query the existence of files - is it content addressed? How is it content addressed?
 
-Integrating DFS allows the Catalyst network to remain lean as nodes on the network can choose to store only the data that they choose to hold. Furthermore, it allows the storage of many rich file types in a distributed manor, meaning that they are always accessible with no down time guaranteed. In this section is a description of the IPFS platform that Catalyst uses, and then how Catalyst integrates this into its ecosystem.
+Integrating DFS allows the Catalyst network to remain lean as nodes on the network can choose to store only the data that they choose to hold. Furthermore, it allows the storage of many rich file types in a distributed manner, meaning that they are always accessible with no down time guaranteed. % As long as nodes continue to pin that information, sure. Shouldn't we mention that? Also, you can't ensure the uptime of the internet as a whole, so downtime is still possible.
+In this section is a description of the IPFS platform that Catalyst uses, and then how Catalyst integrates this into its ecosystem.
 
 
 \subsection{IPFS}
 
-The InterPlanetary File System forms the basis of the Catalyst DFS. IPFS is simply a file system, this can be used to store retrieve and distribute files to other peers. It is itself based on a distributed network, meaning that there is no one central entity that holds and controls the flow of information. \\
+The InterPlanetary File System forms the basis of the Catalyst DFS. IPFS is the name for a distributed file system, a collection of protocols which specify how nodes are supposed to operate in the network, and various multilingual implementations of these protocols. As it is distributed, there is no one central entity that holds and controls the flow of information. \\
 
-An advantage that IPFS has compared to traditional computer filing systems where the URL or file path describe its location, on IPFS what is contained in the file is declared, this is called content addressing, this is using a Content Identifier (CID). This CID is a hash of the contents of the file, thereby changing the contents would change the hash and thereby the CID. Through content addressing, a malicious entity would not be able to send a user a false file in the place of the on that they have requested. This is due to the hardness of reversing a hashing function.\\
+In traditional computer file systems, files are indexed, referenced, and accessed through their location: for instance, `~/Documents/file.md` would refer to a Markdown file inside a "Documents" folder inside the home directory of a user on UNIX systems. However, on a distributed system, there can be no global state that could be used for addressing content. Instead of location-addressing, IPFS and other distributed systems use content-addressing.
 
-Once a file has a CID associated with it a distributed hash table can be formed. Distributed hash tables are key-value stores, which which the elements are held as hashes. The CID becomes the key element. Any peers that hold the file have their ID's associated with the file.  \\
+In a content-addressed system, every file on the system is given a unique, deterministic content identifier (CID) by hashing the content. Hashing works by deterministically using the contents of the file as the input for a standard encryption algorithm. Changing the contents of a file would change the hash of the file. This CID can then be used to index, reference, and access the file directly, regardless of where it is. Advantageously, through content addressing, a malicious entity would not be able to send a user a false file in the place of the one that they have requested. This is due to the difficulty of reversing a hashing function.\\
 
-IPFS integrates Merkle Directed Acyclic Graphs (Merkle DAGs). Merkle DAGs are used to form linkages between blocks of information. For example if an entire folder is added to IPFS, the entire folder would have a CID, but additionally the constituent elements would also. The leaf nodes would be formed of the constituent files.
+Once a file has a CID associated with it, a distributed hash table (DHT) can be formed. DHTs are key-value stores, where the key is the CID of the relevant file, and the value is an array containing all of the user IDs of any peer which holds the file. \\
+
+IPFS integrates Merkle Directed Acyclic Graphs (Merkle DAGs). Merkle DAGs are abstract trees which result when multiple CIDs are used as the input for another hashing algorithm, resulting in chains where entire hierarchies of files can be referenced using a single CID. Any change to any constituent file at the bottom of the tree (the leaf nodes) percolates up to the next hash, and the next, causing the CID for the entire tree to change.
 
 
 \subsection{Integrating the DFS}
 
 Each node on the running on the catalyst network must also be running the DFS module. This allows them on the most basic level to access the current state of the ledger and the validate previous updates to the ledger thereby allowing them to sync with the current ledger state. \\
 
-The primary difference between the native IPFS protocol and the implementation utilised on Catalyst is how the peer ID's are created.  While on the IPFS protocol the identifier for nodes is selected randomly, on Catalyst the nodes on the network will each have their own individual peer identifier\cite{BytesExtentions} made up of:
+The primary difference between the native IPFS protocol and the implementation utilised on Catalyst is how the peer IDs are created.  While on the IPFS protocol the identifier for nodes is selected randomly, on Catalyst the nodes on the network will each have their own individual peer identifier\cite{BytesExtentions} made up of:
 
 \begin{itemize}
 \item IP address
 \item Port number
 \item Public key
 \end{itemize}
+
+% Can't you create your own ID in IPFS? Why not just mandate IPFS interoperability with your own peer names? Are you forking the rest of IPFS's functionality?
 
 
 
