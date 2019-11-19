@@ -1,24 +1,32 @@
-\subsubsection{Final ledger state update generation and broadcast}
-
+The Synchronisaction phase allows those nodes that have produced the correct ledger update to then pass this update onto the rest of the network, thereby integrating the changes held within upon the overall state of the ledger. 
 
 During the synchronisation phase $p$ executes the following steps:
 
 \begin{enumerate}
-\item $p$ defines the ledger state update $\Delta L_n$ for the cycle $\mathcal{C}_n$ as:\\
- $\mathcal{H}(\Delta L_n) = max[unique(\mathcal{H}(LSU_k))~\forall~k\in\{U_j\}]$ and the associated number of votes collected: $U^{maj} = count[(\mathcal{H}(LSU_k) = \mathcal{H}(\Delta L_n))~\forall~k\in\{U_j\}]$ and verifies that $U^{maj}> U_{threshold}$.
-\item $P_j$ creates a new list $\mathcal{L}_{n}(vote)$ and append to $\mathcal{L}_{n}(vote)$ the identifier of a producer included in the list $\mathcal{L}_{k}(vote)$ of a vote $v_k$ satisfying $\mathcal{H}(LSU_k) = \mathcal{H}(\Delta L_n)$ if and only if the identifier is included in at least $C_n/2$ lists $\{\mathcal{L}_{k}(vote)\}$ associated to a producer vote $v_{k}$ satisfying $\mathcal{H}(LSU_k) = \mathcal{H}(\Delta L_n)$. Note that $C_n$ can be easily computed as it corresponds to the number of producer identifiers who correctly computed the ledger state update and are therefore included in $\mathcal{L}_{n}(prod)$.
 
-\item If $P_j$ generated the correct ledger state update $\Delta L_n$, it can write it to DFS which will return it with a content-based address $\mathcal{A}_n$.
-\item A Producer $P_j$ then creates the following output quantity (or \textit{producer output}):
-\begin{equation}
-\fbox{$\mathbf{o_{j} = \mathcal{A}_n~||~\#(\mathcal{L}_{n}(vote))~||~Id_j}$}
+\item Producer $p$ selects from the producer votes $V$ that it recieved the most popular unique $V$. This is defined as $V_{max}$. This $V_{max}$ value must exceed a specified threshold $V_{thresh}$. So $V_{max} \geq V_{thresh}$. %Should this be LSU not V as V will vary prod to prod. 
+
+\item $p$ creates a list $\mathcal{L}_{final}(vote)$. To this list $p$ appends the identifier of any producer that their given $V == V_max$ \textit{i.e.} they voted among the majority and only if they appear in at least half the $\mathcal{L}(vote)$ values from the $V$ values $p$ collected. 
+
+\item If the producer $p$ also created the correct ledger state update $LSU$ then the they can write it to the DFS with the content address CID \cite{ADD LINK TO CID OBJ}. 
+
+\item Producer $p$ then creates the final producer output that can be declared to the network. This output is:
+\begin{center}
+\fbox{$\mathbf{o} = CID~||~\#(\mathcal{L}_{final}(vote))~||~Id$}
 \label{eq:Hj}
-\end{equation}
-The producer then broadcasts $o_j$ to the network.
+\end{center}
+
+
+The producer then broadcasts $o$ to the network.
 \end{enumerate}
 
 
+
 \subsubsection{Ledger state synchronisation across the network}
+
+\begin{comment}
+
+THIS PART NEEDS CHECKING AS THIS RELATES TO NETWORK SYNC
 
 During the time period [$t_{s}, t_s + \Delta t_{cycle}$], user nodes collect $\{o_k\}_{\forall k \in P}$ producer outputs broadcast by the producers.
 By extracting the identifier $Id_k$ embedded in any collected output $o_k$, a user node can easily compile a list of producer identifiers having broadcast the same second hash value $\mathcal{H}(\Delta L_n)$ (concatenated with the same list $\mathcal{L}_{n}(vote)$). Upon receiving $x > P/2$ identical addresses $\{\mathcal{A}_k = \mathcal{A}_n\}_{k \in x}$, the user nodes can read the common address content ($\Delta L_n$) from DFS. Using $\Delta L_n$ a user node can safely synchronise their local copy of the ledger and write it to their DFS if not already done. The balance of accounts stored on the ledger are updated and the producers effectively collect their rewards.\\
@@ -26,5 +34,5 @@ By extracting the identifier $Id_k$ embedded in any collected output $o_k$, a us
 
 Worker nodes also store the list $\mathcal{L}_{n}(vote)$ embedded in each $o_k$ output. If selected to be a producer for the next cycle $\mathcal{C}_{n+1}$, a worker can use it to generate the reward allocated to the producers who correctly voted for the accurate ledger state update during the ledger cycle $\mathcal{C}_{n}$.\\
 
+\end{comment} 
 
-The various parameters and thresholds mentioned in this chapter and their impact on the levels of security and confidence in the successful production of a ledger state update are discussed in the paper found here \cite{catalystresearch2}.

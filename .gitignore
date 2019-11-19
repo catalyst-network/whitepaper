@@ -1,4 +1,12 @@
 
 *.aux
 
-catalyst-technical-whitepaper.synctex.gz
+*.log
+
+*.blg
+
+*.gz
+
+*.out
+
+*.toc
