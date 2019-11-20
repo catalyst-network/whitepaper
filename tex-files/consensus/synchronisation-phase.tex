@@ -4,9 +4,9 @@ During the synchronisation phase $p$ executes the following steps:
 
 \begin{enumerate}
 
-\item Producer $p$ selects from the producer votes $V$ that it recieved the most popular unique $V$. This is defined as $V_{max}$. This $V_{max}$ value must exceed a specified threshold $V_{thresh}$. So $V_{max} \geq V_{thresh}$. %Should this be LSU not V as V will vary prod to prod. 
+\item Producer $p$ selects from the producer votes $V$ that it recieved the most popular unique $V$. The number of most popular votes received is defined as $V_{max}$. This $V_{max}$ value must exceed a specified threshold $V_{thresh}$. So $V_{max} \geq V_{thresh}$. %Should this be LSU not V as V will vary prod to prod. 
 
-\item $p$ creates a list $\mathcal{L}_{final}(vote)$. To this list $p$ appends the identifier of any producer that their given $V == V_max$ \textit{i.e.} they voted among the majority and only if they appear in at least half the $\mathcal{L}(vote)$ values from the $V$ values $p$ collected. 
+\item $p$ creates a list $\mathcal{L}_{final}(vote)$. To this list $p$ appends the identifier of any producer that their given $V == V_{max}$ \textit{i.e.} they voted among the majority and only if they appear in at least half the $\mathcal{L}(vote)$ values from the $V$ values $p$ collected. 
 
 \item If the producer $p$ also created the correct ledger state update $LSU$ then the they can write it to the DFS with the content address CID \cite{ADD LINK TO CID OBJ}. 
 
@@ -17,7 +17,7 @@ During the synchronisation phase $p$ executes the following steps:
 \end{center}
 
 
-The producer then broadcasts $o$ to the network.
+The producer then broadcasts $\mathbf{o}$ to the network.
 \end{enumerate}
 
 

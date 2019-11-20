@@ -4,12 +4,13 @@ Research into a RANDAO provides a viable alternative \cite{skvorc}\cite{randao}.
 
 \begin{itemize}
 
-\item Each node $n$ in the worker pool $N$ generates a random number $r$.
-\item To this random number the hash of the previous ledger state, $D$, must be added.
+\item Define $p$ as the maximum integer that the hashing function used can represent.
+\item Each node $n$ in the worker pool $N$ generates a random number $r$ in the range [0, $p$].
+\item To this random number the hash of the previous ledger state, $D$, must be added mod $p$.
 \item $n$ then creates a Blake-2b hash of the combined random number $H(r + D)$.
 \item Each $n$ must then send their value $r$ to the contract.
 \item If they do not send their $r$ value they are not eligible to become a producer node.
-\item Each $n$ in $N$ sends their $H(r + D)$ to a hard coded smart contract. This creates the global random value $R$. This is done through addition of all the random numbers.
+\item Each $n$ in $N$ sends their $H(r + D)$ to a hard coded smart contract. This creates the global random value $R$. This is done through addition of all the random numbers mod $p$.
 \item The smart contract must determine:
 \begin{itemize}
 \item Whether $n$ did submit all correct information. i.e. $r$, and $H(r+D)$.
