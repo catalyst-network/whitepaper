@@ -10,7 +10,7 @@ Research into a RANDAO provides a viable alternative \cite{skvorc}\cite{randao}.
 \item $n$ then creates a Blake-2b hash of the combined random number $H(r + D)$.
 \item Each $n$ must then send their value $r$ to the contract.
 \item If they do not send their $r$ value they are not eligible to become a producer node.
-\item Each $n$ in $N$ sends their $H(r + D)$ to a hard coded smart contract. This creates the global random value $R$. This is done through addition of all the random numbers mod $p$.
+\item Each $n$ in $N$ sends their $H(r + D)$ to a hard coded smart contract. This creates the global random value $G$. This is done through addition of all the random numbers mod $p$.
 \item The smart contract must determine:
 \begin{itemize}
 \item Whether $n$ did submit all correct information. i.e. $r$, and $H(r+D)$.
@@ -20,7 +20,7 @@ Research into a RANDAO provides a viable alternative \cite{skvorc}\cite{randao}.
 \end{itemize}
 \item Failure of any one of these points means the smart contract will not accept the submission of a random number from $r$ and and stake made will be lost.
 \item This global random can the be used to determine the producers for the next cycle(s).
-\item This is done by determining the nodes that have a $H(r + D)$ closest to the $R$ value. \\
+\item This is done by determining the nodes that have a H(r + D) closest to the R value using a XOR hamming distance search on the binary tree.\\
 
 \end{itemize}
 
