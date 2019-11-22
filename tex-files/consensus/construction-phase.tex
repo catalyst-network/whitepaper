@@ -2,7 +2,7 @@ The first phase of the Catalyst consensus algorithm is the Construction Phase. W
 
 Each producer $p$ in the set of producers $P$ follows the same protocol. The construction phase begins with producer $p$ beginning their construction phase by flushing their mempool. This mempool $T$ is made up of $n$ transactions $t$  where $n$ is the number of transactions that have been broadcast to the network and have been stored by $p$. These transaction are used to create $p$'s local ledger state update $u$. \\
 
-The producer at this point also creates a hash trees $d$, this is to store the the signatures that are extracted from each transaction in $T$. A salt $\sigma$ is created utilizing a pseudo-random number generator using the previous ledger state update $U-1$ as its seed. $p$ then follows the following steps:
+The producer at this point also creates a hash tree $d$, this is to store the the signatures that are extracted from each transaction in $T$. A salt $\sigma$ is created utilizing a pseudo-random number generator using the previous ledger state update $U-1$ as its seed. $p$ then proceeds with the following steps:
 
 \begin{enumerate}
 \item Producer $p$ verifies that each transaction in $T$ is valid following the rules set out in \cite{transactionvalidator}. From each of the $n$ transactions in $T$ the entries $E$ that constitute the transaction $t$ are extracted to form a list $E = e_1,...,e_m$ for $m$ entries in $t$. The producer should therefore end up with $n$ lists for $E$ from $T$. each signature from the transactions are also extracted and added to $d$.
