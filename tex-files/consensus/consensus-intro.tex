@@ -7,13 +7,13 @@ The protocol is split into four distinct phases:
 
 \begin{itemize}
 
-\item Construction Phase - Producer nodes that have been selected create what they believe to be the correct update of the ledger. They then distribute this proposed ledger update in the form of it hash digest.
-\item Campaigning Phase - Producer nodes designate and declare what they propose to be the Ledger State Update as determined by the values it collects from other producer nodes in the producer pool.
+\item Construction Phase - Producer nodes that have been selected create what they believe to be the correct update of the ledger. They then distribute this proposed ledger update in the form of a hash digest.
+\item Campaigning Phase - Producer nodes designate and declare what they propose to be the Ledger State Update as determined by the values collected from other producer nodes in the producer pool.
 \item Voting Phase - Producer nodes vote for what they believe to be the most popular Ledger State Update as determined by the producer pool according to the candidates for the most popular update from the other producer nodes.
 \item Synchronisation Phase - In this phase the producers who have computed the correct ledger update can broadcast this update the rest of the network.
 
 \end{itemize}
 
-This section is based on the work set out in \cite{catalystresearch}, where the original research into the creation of a new consensus mechanism are laid out. \\
+This section is based on the work set out in \cite{catalystresearch}, where the original research into the creation of a new consensus mechanism is laid out. \\
 
-The various parameters and thresholds mentioned in this chapter and their impact on the levels of security and confidence in the successful production of a ledger state update are discussed in the paper found here \cite{catalystresearch2}.
+The various parameters and thresholds mentioned in this chapter and their impact on the levels of security and confidence in the successful production of a ledger state update are discussed in the following paper \cite{catalystresearch2}.
