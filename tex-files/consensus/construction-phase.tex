@@ -1,6 +1,6 @@
 The first phase of the Catalyst consensus algorithm is the Construction Phase. Within which the selected producer nodes  $P$ calculate their proposed ledger state update or their local ledger state update. This is done by aggregating and validating all transactions that have occurred during a set time period. These transactions assuming their validity are integrated into the producers local ledger state update. From which they can create a hash of the update. This hash digest represents what they believe to be the correct update and is broadcast to the other producer nodes during for that cycle. Assuming the collision free nature of hash functions, the only mechanism for multiple producer nodes to have the same local ledger state update is by both using the same set of transactions. \\
 
-Each producer $p$ in the set of producers $P$ follows the same protocol. The construction phase begins with producer $p$ beginning their construction phase by flushing their mempool. This mempool $T$ is made up of $n$ transactions $t$  where $n$ is the number of transactions that have been broadcast to the network and have been stored by $p$. These transaction are used to create $p$'s local ledger state update $u$. \\
+Each producer $p$ in the set of producers $P$ follows the same protocol. The construction phase begins with producer $p$ beginning their construction phase by flushing their mempool. This mempool $T$ is made up of a set of transactions $t$, where the size of $T$ is the number of transactions that have been broadcast to the network and have been stored by $p$. These transaction are used to create $p$'s local ledger state update $u$. \\
 
 The producer at this point also creates a hash tree $d$, this is to store the the signatures that are extracted from each transaction in $T$. A salt $\sigma$ is created utilizing a pseudo-random number generator using the previous ledger state update $U-1$ as its seed. $p$ then proceeds with the following steps:
 
@@ -24,7 +24,7 @@ Each pair ($E,H$) is added to a list $L$.
 $u = \mathcal{H}(L~||~d)$
 \end{center}
 
-$u$ is then concatenated with $p$'s unique peer identifier $Id$ to create:
+This list summary of transactions $u$ is then concatenated with $p$'s unique peer identifier $Id$ to create:
 
 \begin{center}
 $h = u ~||~Id$
