@@ -4,10 +4,9 @@ During the synchronisation phase $p$ executes the following steps:
 
 \begin{enumerate}
 
-\item Producer $p$ selects from the producer votes $V$ which received the most popular unique $V$. % I changed this to be more grammatical; did I change the meaning? Remove comment if this is right.
-The number of most popular votes received is defined as $V_{max}$. This $V_{max}$ value must exceed a specified threshold $V_{thresh}$. So $V_{max} \geq V_{thresh}$. % Should this be LSU not V as V will vary prod to prod.
+\item Producer $p$ selects from the producer votes $V$ which received the most popular unique $V$. The number of most popular votes received is defined as $V_{max}$. This $V_{max}$ value must exceed a specified threshold $V_{thresh}$. So $V_{max} \geq V_{thresh}$. 
 
-\item $p$ creates a list $\mathcal{L}_{final}(vote)$. To this list $p$ appends the identifier of any producer that their given $V == V_{max}$ \textit{i.e.} they voted among the majority and only if they appear in at least half the $\mathcal{L}(vote)$ values from the $V$ values $p$ collected. %Not sure this is grammatical.
+\item $p$ creates a list $\mathcal{L}_{final}(vote)$. To $\mathcal{L}_{final}(vote)$ the producer $p$ appends the identifier of any producer that their given $V == V_{max}$ \textit{i.e.} they voted among the majority. Furthermore that producer must appear in at least half the $\mathcal{L}(vote)$ lists found in the $V$ values $p$ collected from other producers. 
 
 \item If the producer $p$ also created the correct ledger state update $LSU$ then they can write it to the DFS with the content address CID \cite{ADD LINK TO CID OBJ}.
 
