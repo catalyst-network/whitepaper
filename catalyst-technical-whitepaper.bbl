@@ -19,6 +19,12 @@ P.~Bernat, J.~Kearney, and F.~Sage-Ling, ``Catalyst network research: a new
   \url{https://atlascitywebsitedocs.blob.core.windows.net/websitefiles/catalyst-consensus-paper.pdf},
   07/11/2019.
 
+\bibitem{catalystresearch2}
+P.~Bernat, J.~Kearney, and F.~Sage-Ling, ``Catalyst network: Security
+  considerations.''
+  \url{https://atlascitywebsitedocs.blob.core.windows.net/websitefiles/Catalyst%20Network%20Security%20Considerations.pdf},
+  07/11/2019.
+
 \bibitem{skvorc}
 B.~Skvorc, ``Two point oh: Randomness.''
   \url{https://our.status.im/two-point-oh-randomness/}, 07/05/2019.
@@ -29,12 +35,6 @@ randao, ``randao.'' \url{https://github.com/randao/randao/}, 26/03/2019.
 \bibitem{transactionvalidator}
 catalyst network, ``Transactionvalidator.cs.''
   \url{https://github.com/catalyst-network/Catalyst.Framework/blob/f23089d75ce876008ae1400f8044f538e07a3100/src/Catalyst.Core.Lib/Validators/TransactionValidator.cs},
-  07/11/2019.
-
-\bibitem{catalystresearch2}
-P.~Bernat, J.~Kearney, and F.~Sage-Ling, ``Catalyst network: Security
-  considerations.''
-  \url{https://atlascitywebsitedocs.blob.core.windows.net/websitefiles/Catalyst%20Network%20Security%20Considerations.pdf},
   07/11/2019.
 
 \bibitem{DFS}
@@ -50,6 +50,10 @@ J.~Benet, ``Ipfs - content addressed, versioned, p2p file system,'' {\em arXiv
 catalyst network, ``Bytesextensions.cs.''
   \url{https://github.com/catalyst-network/Catalyst.Framework/blob/b761153e5e30a65b843d470cf60175256bd43276/src/Catalyst.Core.Lib/Extensions/BytesExtensions.cs},
   07/11/2019.
+
+\bibitem{benet2018filecoin}
+J.~Benet and N.~Greco, ``Filecoin: A decentralized storage network,'' {\em
+  Protoc. Labs}, 2018.
 
 \bibitem{KVM}
 catalyst network, ``Catalyst.core.modules.kvm.''
