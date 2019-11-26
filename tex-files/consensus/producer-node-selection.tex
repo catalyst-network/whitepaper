@@ -1,0 +1,33 @@
+Original work for the Catalyst consensus mechanism states that the peers are selected with relation to the persistent identifier and the hash of the previous data. But as the persistent identifier can be manipulated by a user and thereby weighted in their favor of selection to become a producer, this is not usable. \\
+
+Research into a random decided decentralised autonomous organisation (RANDAO) provides a viable alternative \cite{skvorc}\cite{randao}. This is a process by which each user creates their own random value and by combining these random numbers across the network they calculate a global pseudo-random number. The larger the network the more random the number will be. The proposed process works as follows: \\
+
+\begin{itemize}
+
+\item Define $p$ as the maximum integer that the hashing function used can represent.
+\item Each node in the worker pool generates a random number $r$ in the range [0, $p$].
+\item To this random number the hash of the previous ledger state, $D$, must be added mod $p$.
+\item Each node then creates a Blake-2b hash of the combined random number $H(r + D)$.
+\item Each node must then send their value $r$ to the contract.
+\item If they do not send their $r$ value they are not eligible to become a producer node.
+\item Each node in the worker pool sends their $H(r + D)$ to the global state. This creates the global random value $G$. This is done through addition of all the random numbers mod $p$.
+\item The global state must determine:
+\begin{itemize}
+\item Whether a particular node did submit all correct information, \textit{i.e.} $r$, and $H(r+D)$.
+\item That a particular node did in fact use the $D$ value when generating the random number. This is done by taking the $r$ value submitted by the user and hashing with $D$.
+\item Ensuring the node has paid a sufficient stake to take part in the selection process.
+\item Validating that each worker has only distributed one random number to the smart contract.
+\end{itemize}
+\item Failure of any one of these points means the smart contract will not accept the submission of a random number from $r$ and and the created stake will be lost.
+\item This global random number can then be used to determine the producers for the next cycle(s).
+\item This is done by determining the nodes that have a $H(r + D)$ closest to the $G$ value using a XOR Hamming distance search on the binary tree.\\
+
+\end{itemize}
+
+This method is secure from manipulation because hashing algorithms are one way functions, meaning that there is no provably efficient method to inverse a hashing function, \textit{i.e.} retrieving a message $m$ from a digest $H(m)$. If a node does not input a value into the global state then they are not eligible for selection for becoming a producer for that cycle(s). \\
+
+Inclusion of the $D$ value is necessary as this will prevent a producer from using known random values to create a desired digest that gives them an advantage when being selected. The value for $D$ must fulfill two rules, firstly it must always be the same for all nodes in the worker pool, secondly it must change with each draw of a random number when determining the random selection of producer nodes. This prevents a user creating a hash using known input and digest combinations in order to gain an advantage when being selected. Furthermore, if the hash of the previous ledger state is used as $D$ it ensures that a prospective producer node knows the current ledger state. If they do not then their random number will be invalid as $H(r + D_{prod}) \neq H(r + D)$. \\
+
+As described in RANDAO\cite{randao}, this can be further extended to implement staking. Nominal contribution fees can be added in order to prevent DDOS and Sybil attacks without disincentivising participation. There is also the additional benefit of simplification of the overall consensus mechanism as it removes the need for a queuing mechanism, as well as producing a verifiable method of keeping track of which nodes are registering to be workers for any given cycle. It also in turn provides evidence to other nodes on the network who the producers for any given cycle are as the process will be verifiable. \\
+
+This scheme will provide the Catalyst consensus mechanism with a verifiable, reliable and secure mechanism to generate a pool of producers. By randomly assigning which workers get to participate in the next ledger cycle, fairness is ensured. \\

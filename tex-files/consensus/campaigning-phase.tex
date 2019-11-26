@@ -1,0 +1,14 @@
+The second phase of the consensus mechanism is where the producer $p$ generates and proposes a candidate, which it calculates to be the most popular ledger state update. \\
+
+
+Beginning this phase producer $p$ has a set of partial ledger updates $G$ that it has received from other producer nodes. Each $h$ within $G$ contains a producer's hash of the proposed update ($u$ and a peer identifier ($Id$). The most popular $u$ value can be found, which gives us $u^{maj}$, and from there the subset $G_{maj}$ can be created, which is the amount of votes for the most popular update. Two thresholds must be considered first are $G_{min}$, the minimum amount of updates it has received from other producers in order to generate a valid candidate, and $G_{thresh}$, the threshold value for which a minimum number of votes must be in favor of $G_{maj}$ (the most popular vote found within $G$). So in order to proceed with declaring a candidate the requirements, $G > G_{min}$ and $G_{maj} > G_{thresh}$ must be met. \\ 
+
+If the thresholds are met the following can take place:
+
+\begin{enumerate}
+\item $p$ creates a list $\mathcal{L}(prod)$. To this list $p$ appends the identifier of any producer that correctly sent the $u$ value that equals $u^{maj}$. If $p$'s $u$ value is also the same as $u^{maj}$ then they should append their own $Id$.
+\item Producer $p$ then creates their candidate for the ledger update $c$ which is calculated as $c = u^{maj}~||~\#(\mathcal{L}(prod))~||~Id$
+\item Producer $p$ will then broadcast their preferred update $c$ to the other producers.
+\end{enumerate}
+
+$p$ during this phase will be collecting the $c$ values from other producers. At the end of this phase of the cycle $p$ will hold a set of $C$ candidates.

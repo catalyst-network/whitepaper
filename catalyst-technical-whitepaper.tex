@@ -1,0 +1,134 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{centernot}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage[colorlinks]{hyperref}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{titlesec}
+\usepackage{scrextend}
+\usepackage{titlepic}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{epstopdf}
+\usepackage{pdflscape}
+\usepackage[margin=1.2in]{geometry}
+
+\title{\textbf{Catalyst Network - Technical White Paper (DRAFT - V1)}}
+\date{\today}
+\author{Joseph Kearney\thanks{joseph.kearney@atlascity.io} - Atlas City}
+
+
+\begin{document}
+
+\includepdf [fitpaper=true] {Figures/cover-image}
+
+\maketitle
+
+\abstract
+
+\input{tex-files/abstract}
+
+\begin{center}
+\vspace{50mm}
+\textbf{This document is a work in progress and is subject to change.}
+\end{center}
+
+\newpage
+
+{
+  \hypersetup{linkcolor=black}
+  \tableofcontents
+}
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{comment}
+\section*{Introduction}
+
+\input{tex-files/intro}
+\end{comment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Catalyst Consensus Mechanism}
+
+\input{tex-files/consensus/consensus-intro}
+
+\subsection{Producer Node Selection}
+
+\input{tex-files/consensus/producer-node-selection}
+
+
+\subsection{Notation} 
+
+\input{tex-files/consensus/notation}
+
+\subsection{Construction Phase}
+
+\input{tex-files/consensus/construction-phase}
+
+
+\subsection{Campaigning Phase}
+
+\input{tex-files/consensus/campaigning-phase}
+
+
+\subsection{Voting Phase}
+
+\input{tex-files/consensus/voting-phase}
+
+\subsection{Synchronisation Phase}
+
+\input{tex-files/consensus/synchronisation-phase}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{comment}
+\section{Distributed File System}
+
+\input{tex-files/DFS/dfs-intro}
+
+\subsection{IPFS}
+
+\input{tex-files/DFS/ipfs}
+
+\subsection{Integrating the DFS}
+
+\input{tex-files/DFS/integrating-dfs}
+
+\subsection{The Marketplace}
+
+\input{tex-files/DFS/marketplace}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{KVM}
+
+\input{tex-files/KVM/kvm-intro}
+
+\subsection{From the EVM}
+
+\input{tex-files/KVM/evm}
+
+\subsection{To the KVM}
+
+\input{tex-files/KVM/kvm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Conclusion}
+
+\input{tex-files/conclusion}
+
+\end{comment}
+\bibliography{catalyst-technical-whitepaper}
+\bibliographystyle{ieeetr}
+
+\end{document}
