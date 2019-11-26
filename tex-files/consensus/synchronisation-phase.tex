@@ -1,14 +1,14 @@
-The Synchronisaction phase allows those nodes that have produced the correct ledger update to then pass this update onto the rest of the network, thereby integrating the changes held within upon the overall state of the ledger. 
+The Synchronisation phase allows those nodes that have produced the correct ledger update to then pass this update onto the rest of the network, thereby integrating the changes held within upon the overall state of the ledger.
 
 During the synchronisation phase $p$ executes the following steps:
 
 \begin{enumerate}
 
-\item Producer $p$ selects from the producer votes $V$ that it recieved the most popular unique $V$. The number of most popular votes received is defined as $V_{max}$. This $V_{max}$ value must exceed a specified threshold $V_{thresh}$. So $V_{max} \geq V_{thresh}$. %Should this be LSU not V as V will vary prod to prod. 
+\item Producer $p$ selects from the producer votes $V$ which received the most popular unique $V$. The number of most popular votes received is defined as $V_{max}$. This $V_{max}$ value must exceed a specified threshold $V_{thresh}$. So $V_{max} \geq V_{thresh}$. 
 
-\item $p$ creates a list $\mathcal{L}_{final}(vote)$. To this list $p$ appends the identifier of any producer that their given $V == V_{max}$ \textit{i.e.} they voted among the majority and only if they appear in at least half the $\mathcal{L}(vote)$ values from the $V$ values $p$ collected. 
+\item $p$ creates a list $\mathcal{L}_{final}(vote)$. To $\mathcal{L}_{final}(vote)$ the producer $p$ appends the identifier of any producer that their given $V == V_{max}$ \textit{i.e.} they voted among the majority. Furthermore that producer must appear in at least half the $\mathcal{L}(vote)$ lists found in the $V$ values $p$ collected from other producers. 
 
-\item If the producer $p$ also created the correct ledger state update $LSU$ then the they can write it to the DFS with the content address CID \cite{ADD LINK TO CID OBJ}. 
+\item If the producer $p$ also created the correct ledger state update $LSU$ then they can write it to the DFS with the content address CID \cite{ADD LINK TO CID OBJ}.
 
 \item Producer $p$ then creates the final producer output that can be declared to the network. This output is:
 \begin{center}
@@ -34,5 +34,5 @@ By extracting the identifier $Id_k$ embedded in any collected output $o_k$, a us
 
 Worker nodes also store the list $\mathcal{L}_{n}(vote)$ embedded in each $o_k$ output. If selected to be a producer for the next cycle $\mathcal{C}_{n+1}$, a worker can use it to generate the reward allocated to the producers who correctly voted for the accurate ledger state update during the ledger cycle $\mathcal{C}_{n}$.\\
 
-\end{comment} 
+\end{comment}
 
