@@ -1,0 +1,3 @@
+The current state of the ledger can always be arrived at by applying the relevant deltas to a previous state. This process is deterministic such that applying the correct updates will always create the same tree. Where data is unchanged previous entries do not need to change to be included in the new state.
+
+This data structure has the additional advantage that as we apply each delta we are not overwriting any information about previous ledger states. This means that the ledger history can be easily queried.

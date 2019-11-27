@@ -20,7 +20,10 @@
 \usepackage{rotating}
 \usepackage{epstopdf}
 \usepackage{pdflscape}
+ \usepackage{placeins}
 \usepackage[margin=1.2in]{geometry}
+
+\graphicspath{{./Figures/state-figures/} {../../Figures/state-figures/} }
 
 \title{\textbf{Catalyst Network - Technical White Paper (DRAFT - V1)}}
 \date{\today}
@@ -106,9 +109,22 @@
 \subsection{The Marketplace}
 
 \input{tex-files/DFS/marketplace}
+\end{comment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Global Ledger State}
+\input{tex-files/state/state-intro}
+
+\subsection{Account State}
+\input{tex-files/state/account-state}
+
+\subsection{Ledger Storage}
+\input{tex-files/state/ledger-storage}
+
+\subsection{Updating the State}
+\input{tex-files/state/updating-state}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\begin{comment}
 \section{KVM}
 
 \input{tex-files/KVM/kvm-intro}
@@ -120,9 +136,9 @@
 \subsection{To the KVM}
 
 \input{tex-files/KVM/kvm}
-
+\end{comment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\begin{comment}
 \section*{Conclusion}
 
 \input{tex-files/conclusion}
