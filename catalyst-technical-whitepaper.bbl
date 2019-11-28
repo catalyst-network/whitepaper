@@ -1,17 +1,9 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{1}
 
-\bibitem{nakamoto2008bitcoin}
-S.~Nakamoto {\em et~al.}, ``Bitcoin: A peer-to-peer electronic cash system,''
-  2008.
-
-\bibitem{back2002hashcash}
-A.~Back {\em et~al.}, ``Hashcash-a denial of service counter-measure,'' 2002.
-
-\bibitem{EthBloat}
-S.~Hackernoon, ``The ethereum-blockchain size has exceeded 1tb, and yes, it’s
-  an issue.''
-  \url{https://hackernoon.com/the-ethereum-blockchain-size-has-exceeded-1tb-and-yes-its-an-issue-2b650b5f4f62},
-  19/05/2018.
+\bibitem{wood2014ethereum}
+G.~Wood {\em et~al.}, ``Ethereum: A secure decentralised generalised
+  transaction ledger,'' {\em Ethereum project yellow paper}, vol.~151,
+  no.~2014, pp.~1--32, 2014.
 
 \bibitem{catalystresearch}
 P.~Bernat, J.~Kearney, and F.~Sage-Ling, ``Catalyst network research: a new
