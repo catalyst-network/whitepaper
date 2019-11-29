@@ -1,1 +1,4 @@
-The global ledger state is the current state of all the accounts in the Catalyst Network. This state is not stored in the delta, instead a copy of the ledger state is stored by all participating nodes and updated each ledger cycle. The ledger state consists of a mapping between account addresses and information about those accounts – such as their balance, and how many transactions have been made previously using that account.
+The global ledger state is the current state of all the accounts in the Catalyst Network. The state contains a key and value pair for every account. The `key' is the account address and the `value' contains account details such as the current account balance, and the number of previous transactions created from that account. A newly created account will only become part of the ledger state once it receives a transfer of Kats.
+\\
+\\
+The global ledger state is not stored in the delta, instead a copy of the ledger state is stored by all participating nodes and updated each ledger cycle.
