@@ -22,14 +22,18 @@
 \usepackage{pdflscape}
  \usepackage{placeins}
  \usepackage{enumitem}
-\usepackage{lipsum}
 \usepackage[margin=1.2in]{geometry}
+\usepackage{authblk}
 
 \graphicspath{{./Figures/state-figures/} {../../Figures/state-figures/} }
 
 \title{\textbf{Catalyst Network - Technical White Paper (DRAFT - V1)}}
 \date{\today}
-\author{Joseph Kearney\thanks{joseph.kearney@atlascity.io} - Atlas City}
+
+\author[1]{James Kirby\thanks{nshcore@protonmail.com}}
+\author[2]{Joseph Kearney\thanks{joseph.kearney@atlascity.io}}
+\affil[1]{Catalyst Foundation}
+\affil[2]{AtlasCity}
 
 
 \begin{document}
@@ -56,11 +60,11 @@
 \newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{comment}
+
 \section*{Introduction}
 
 \input{tex-files/intro}
-\end{comment}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Catalyst Consensus Mechanism}
@@ -95,7 +99,7 @@
 \input{tex-files/consensus/synchronisation-phase}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{comment}
+
 \section{Distributed File System}
 
 \input{tex-files/DFS/dfs-intro}
@@ -111,7 +115,6 @@
 \subsection{The Marketplace}
 
 \input{tex-files/DFS/marketplace}
-\end{comment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Global Ledger State}
@@ -145,8 +148,8 @@
 \section*{Conclusion}
 
 \input{tex-files/conclusion}
-
 \end{comment}
+
 \bibliography{catalyst-technical-whitepaper}
 \bibliographystyle{ieeetr}
 
