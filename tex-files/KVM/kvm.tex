@@ -1,1 +1,13 @@
-As EVM requires smart contract developers to write in Solidity this can prove to be restrictive. The KVM allows smart contracts to be able to write smart contracts in a wide variety of languages.
+As EVM requires smart contract developers to write in Solidity this can prove to be restrictive. The KVM allows smart contracts to be able to write smart contracts in a wide variety of languages. \\
+
+The KVM extends the range of Opcodes that are available on the EVM through the use of precompiles. 
+
+Examples of the additional pre-compiles that are added are: 
+
+\begin{itemize} 
+\item Range proof - Allows a range proof to be built 
+\item Read DFS -
+\item Write DFS -
+\end{itemize} 
+
+The use of precompiles rather than the addition of new opcodes means that KVM can retain interoperability with the EVM in the future. 
