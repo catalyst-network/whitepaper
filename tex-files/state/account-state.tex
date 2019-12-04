@@ -1,0 +1,13 @@
+Due to Catalyst Network’s extension of the Ethereum Virtual Machine into the KVM, the account information stored in the Catalyst account state is similar to an Ethereum account. Smart contracts and ordinary accounts use the same account structure, however some fields contain default values except in the case of a smart contract account. \\
+
+The variables stored in the account state are:
+
+\begin{description}[labelwidth=2cm, leftmargin=!]
+\item [Balance] The number of Mol owned by the account.
+\item [Commitment] The private balance, represented by a Pedersen Commitment.
+\item [Nonce] A number which is incremented when either public or private transactions are made from the account in order to prevent double spend attacks.
+\item [StorageRoot] A hash representing the data stored by a smart contract.
+\item [CodeHash] A hash representing the KVM code defining how the smart contract will operate.
+\end{description}
+\vspace{0.75em}
+In the Catalyst Network the the balance is stored directly in the state, rather than being derived from the transaction history as in Bitcoin. This has a number of advantages. New transactions can be validated more efficiently because it is faster to check that an account has sufficient funds. In addition, being able to store data state makes smart contracts much easier to design.

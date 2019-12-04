@@ -20,8 +20,13 @@
 \usepackage{rotating}
 \usepackage{epstopdf}
 \usepackage{pdflscape}
+ \usepackage{placeins}
+ \usepackage{enumitem}
 \usepackage[margin=1.2in]{geometry}
 \usepackage{authblk}
+\usepackage{caption}
+
+\graphicspath{{./Figures/state-figures/} {../../Figures/state-figures/} }
 
 \title{\textbf{Catalyst Network - Technical White Paper (DRAFT - V1)}}
 \date{\today}
@@ -111,9 +116,22 @@
 \subsection{The Marketplace}
 
 \input{tex-files/DFS/marketplace}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Global Ledger State}
+\input{tex-files/state/state-intro}
+
+\subsection{Account State}
+\input{tex-files/state/account-state}
+
+\subsection{Ledger Storage}
+\input{tex-files/state/ledger-storage}
+
+\subsection{Updating the State}
+\input{tex-files/state/updating-state}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\begin{comment}
 \section{KVM}
 
 \input{tex-files/KVM/kvm-intro}
@@ -125,13 +143,13 @@
 \subsection{To the KVM}
 
 \input{tex-files/KVM/kvm}
-
+\end{comment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\begin{comment}
 \section*{Conclusion}
 
 \input{tex-files/conclusion}
-
+\end{comment}
 
 \bibliography{catalyst-technical-whitepaper}
 \bibliographystyle{ieeetr}

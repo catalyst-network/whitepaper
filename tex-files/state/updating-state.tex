@@ -1,0 +1,3 @@
+The current state of the ledger can always be obtained by applying the relevant deltas to a previous state. This process is deterministic such that applying the correct updates will always create an identical new state tree. Where data is unchanged the previous entries do not need to change in order to be included in the new state.\\
+
+The merkle tree data structure has the additional advantage that as we apply each delta we do not overwrite information from previous ledger states. This means that the ledger history can be easily queried.
