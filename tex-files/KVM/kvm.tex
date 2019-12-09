@@ -1,13 +1,15 @@
-As EVM requires smart contract developers to write in Solidity this can prove to be restrictive. The KVM allows smart contracts to be able to write smart contracts in a wide variety of languages. \\
+Smart contracts written for the EVM will be compatible with the KVM, meaning that no previously invested resources in developing Ethereum smart contracts will be wasted.  \\
 
-The KVM extends the range of Opcodes that are available on the EVM through the use of precompiles. 
+Precompiles are utilised in order to extend the functionality of the EVM. Precompiles or precompiled contracts are smart contracts that allow easy access to functions when writing smart contracts. These can be mapped to free slots in the namespace for the Opcodes. While these precompiles are not required to give Ethereum its pseudo-Turing completeness they enable users to produce smart contracts with a much higher level of business logic, meaning smart contracts are easier to create. \\
 
-Examples of the additional pre-compiles that are added are: 
+The KVM extends the range of Opcodes that are available on the EVM through the use of precompiles. These precompiles will allow interoperability with the Catalyst DFS, as some of the mathematical functions needed for confidential transactions. Precompiles are smart contracts that perform a function that are given input in\\
+
+Examples of the additional pre-compiles that are added are: \\
 
 \begin{itemize} 
 \item Range proof - Allows a range proof to be built 
-\item Read DFS -
-\item Write DFS -
+\item Read DFS - Reads a part of the DFS according to its CID.
+\item Write DFS - Writes a file to the DFS, giving it a CID. \\
 \end{itemize} 
 
-The use of precompiles rather than the addition of new opcodes means that KVM can retain interoperability with the EVM in the future. 
+The use of precompiles rather than the addition of new opcodes means that KVM can retain interoperability with the EVM in the future while further extending its usability. Through the use of opcodes it also allows Catalyst to implement its specific cryptographic primatives that are used on the network as these will be different from those used on Ethereum. It also allows Catalyst to allow confidential transactions within smart contracts to be broadcast trivially. Interaction with the DFS integrated into Catalyst is also possible. 

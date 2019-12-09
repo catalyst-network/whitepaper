@@ -1,5 +1,9 @@
 \begin{thebibliography}{10}
 
+\bibitem{nakamoto2008bitcoin}
+S.~Nakamoto {\em et~al.}, ``Bitcoin: A peer-to-peer electronic cash system,''
+  2008.
+
 \bibitem{chaum1979computer}
 D.~L. Chaum, {\em Computer Systems established, maintained and trusted by
   mutually suspicious groups}.
@@ -66,9 +70,18 @@ W.~Warren and A.~Bandeali, ``0x: An open protocol for decentralized exchange on
   the ethereum blockchain,'' {\em URl: https://github.
   com/0xProject/whitepaper}, 2017.
 
+\bibitem{KATUnit}
+catalyst network, ``Catalyst.core.modules.kvm - catalystunit.cs.''
+  \url{https://github.com/catalyst-network/Catalyst/blob/master/src/Catalyst.Core.Modules.Kvm/CatalystUnit.cs},
+  07/11/2019.
+
 \bibitem{KVM}
 catalyst network, ``Catalyst.core.modules.kvm.''
   \url{https://github.com/catalyst-network/Catalyst.Framework/tree/develop/src/Catalyst.Core.Modules.Kvm},
   07/11/2019.
+
+\bibitem{Opcodes}
+ethervm, ``Ethereum virtual machine opcodes.'' \url{https://ethervm.io/},
+  28/09/2019.
 
 \end{thebibliography}
