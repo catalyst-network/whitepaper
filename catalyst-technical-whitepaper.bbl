@@ -36,11 +36,6 @@ B.~Skvorc, ``Two point oh: Randomness.''
 \bibitem{randao}
 randao, ``randao.'' \url{https://github.com/randao/randao/}, 26/03/2019.
 
-\bibitem{transactionvalidator}
-catalyst network, ``Transactionvalidator.cs.''
-  \url{https://github.com/catalyst-network/Catalyst.Framework/blob/f23089d75ce876008ae1400f8044f538e07a3100/src/Catalyst.Core.Lib/Validators/TransactionValidator.cs},
-  07/11/2019.
-
 \bibitem{EthBloat}
 S.~Hackernoon, ``The ethereum-blockchain size has exceeded 1tb, and yes, it’s
   an issue.''

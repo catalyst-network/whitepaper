@@ -1,36 +1,41 @@
-The first phase of the Catalyst consensus algorithm is the Construction Phase. In this phase, the selected producer nodes $P$ calculate either their proposed ledger state update.This is done by aggregating and validating all transactions that have occurred during a set time period. These transactions, assuming their validity, are integrated into the producers' local ledger state update, from which they can create a hash of the update. This hash digest represents what they believe to be the correct update and is broadcast to the other producer nodes for that cycle. Assuming the collision free nature of hash functions, the only mechanism for multiple producer nodes to have the same local ledger state update is for both of them to use the same set of transactions. \\
+The first phase of the Catalyst consensus algorithm is the Construction Phase. In this phase, the selected producer nodes $P$ calculate their proposed ledger state update. This is done by aggregating and validating all transactions that have occurred during a set time period. These transactions, assuming their validity, are represented by the list of digital signatures extracted the transactions, from which they can create a hash of the update. This hash digest represents what they believe to be the correct update and is broadcast to the other producer nodes for that cycle. Assuming the collision free nature of hash functions, the only mechanism for multiple producer nodes to have the same local ledger state update is for both of them to use the same set of transactions. \\
 
-Each producer $p$ in the set of producers $P$ follows the same protocol. The construction phase begins with producer $p$ beginning their construction phase by flushing their mempool. This mempool $T$ is made up of a set of transactions $t$, where the size of $T$ is the number of transactions that have been broadcast to the network and have been stored by $p$. These transaction are used to create $p$'s local ledger state update $u$. \\
+Each producer $p$ in the set of producers $P$ follows the same protocol. The construction phase begins with producer $p$ beginning their construction phase by selecting the set of $n$ transactions that are to be integrated into the next ledger update. This number $n$ transactions is determined by the network and can be considered the difficulty of the block generation, this difficulty will decrease at times of low transaction throughput and increase at times of higher demand from the network. This also means that all selected producers know how many valid transactions they should attempt to add to a ledger update. The set of transactions $T$ selected by $p$ to process is made up of a set of transactions $t$. These transaction are used to create $p$'s local ledger state update $u$. \\
 
-The producer at this point also creates a hash tree $d$. This is to store the signatures that are extracted from each transaction in $T$. A salt $\sigma$ is created utilizing a pseudo-random number generator using the previous ledger state update $U-1$ as its seed. $p$ then follows the following steps:
+This set of transactions will be ordered as and when they a received by a producer through the following process:
+
+\begin{itemize} 
+\item A hash of each transaction is created using the salt $\sigma$ which is created utilizing a pseudo-random number generator using the previous ledger state update.
+\begin{center}
+$H = \mathcal{H}[t~||~\sigma]$
+\end{center}
+\item This creates a pair ($t,H$).
+\item The list of transactions $t$ are sorted alphanumerically according to $H$.
+\end{itemize}
+
+Once the threshold according to the required number of transactions has been met $p$ creates a hash tree $d$. This is to store the signatures that are extracted from each transaction in $T$ and is used as an excerpt of the ledger update. 
 
 \begin{enumerate}
-\item Producer $p$ verifies that each transaction in $T$ is valid following the rules set out in \cite{transactionvalidator}. From each of the $n$ transactions in $T$ the entries $E$ that constitute the transaction $t$ are extracted to form a list $E = e_1,...,e_m$ for $m$ entries in $t$. The producer should therefore end up with $n$ lists for $E$ from $T$. Each signature from the transactions is also extracted and added to $d$.
 
-\item $p$ for each $E$ it created then creates a corresponding hash digest as:
-\begin{center}
-$H = \mathcal{H}[E~||~\sigma]$
-\end{center}
 
-Each pair ($E,H$) is added to a list $L$.
-
-\item $p$ then sorts list $L$ into lexicographical order according to the hash values $H$.
+\item $d$ will be ordered equivalently to the list of selected transactions i.e. each $d$ will map in order to a corresponding transaction $t$ from $T$. 
 
 \item The producer $p$ then extracts the transaction fee value from each transaction in $T$ to create $v$ which is the total sum of all transaction fees.
 
-\item The local ledger state update $u$ for producer $p$ can then be calculated. Firstly the list $L$ is concatenated (denoted by $||$) with the hash tree $d$ and a hash digest is created as:
+\item The local ledger state update $u$ for producer $p$ can then be calculated. This is done by concatenating (denoted by $||$) the hash tree $d$ with the producer $p$'s peer ID denoted by PId and a hash digest is created as:
 
 \begin{center}
-$u = \mathcal{H}(L~||~d)$
+$u = \mathcal{H}(d~||~PId)$
 \end{center}
 
-This list summary of transactions $u$ is then concatenated with $p$'s unique peer identifier $Id$ to create:
+This summary of transactions $u$ is then concatenated with $p$'s $PId$ to create:
 
 \begin{center}
-$h = u ~||~Id$
+$h = u ~||~PId$
 \end{center}
 
-\item $h$ is then broadcast to the other producer nodes on the network.
+\item $p$ is then broadcasts a special signed transaction to the RANDAO with $h$ as the message.
 \end{enumerate}
 
-Producer $p$ also collects other producers' partial ledger update values. At most they will collect $P-1$ values. Optimally every producer in $P$ will receive the same set of transactions, so for every $p$ in $P$ they will have the same partial ledger update $u$. However this is unlikely due to all transactions not being received by a small group of nodes. Equally they may not hold $G$ where $G = h_1,...,h_P$, meaning they may not receive a proposed update from all candidates.
+
+Producer $p$ also collects other producers' partial ledger update values. At most they will collect $P-1$ values. Optimally every producer in $P$ will receive the same set of transactions, so for every $p$ in $P$ they will have the same partial ledger update $u$. However this is unlikely due to all transactions not being received by a small group of nodes, however because each producer node knows how many . Equally they may not hold $G$ where $G = h_1,...,h_P$, meaning they may not receive a proposed update from all candidates.
