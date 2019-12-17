@@ -5,10 +5,12 @@ At this stage a producer $p$ who during the consensus phase managed to produce t
 Each $p$ that found themselves to be within the majority broadcast their ledger update to the network. This takes the form: 
 
 \begin{center} 
-$LSU = \#\mathcal{ID}^{dec} || T || PId$
+$LSU = \#(\mathcal{L}_{final})~||~T~||~PId$
 \end{center} 
 
-Where $\#\mathcal{ID}^{dec}$ is the hash tree structure of the ID's of the votes it found within $G^{dec}$. This combined with the information recorded in the transactions in the RANDAO provides users with the information required to determine which users from the pool of producers $P$ that were selected from this cycle were.
+This combined with the information recorded in the transactions in the RANDAO provides users with the information required to determine which users from the pool of producers $P$ that were selected from this cycle were. \\
+
+The producer then pins this update to the DFS, adding their name to the hash table. If they are the first to do so they also create the CID for this update. The producer can the broadcast this CID to the network, declaring that a new delta has been created. Other peers on the network can access the update and request the update from one of the producers that holds the update.
 
 \begin{comment}
 

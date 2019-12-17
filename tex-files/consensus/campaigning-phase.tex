@@ -4,7 +4,7 @@ The second phase of the consensus mechanism is where the producer $p$ generates 
 Beginning this phase producer $p$ is constructing a set of proposed ledger updates $G$ that it is receiving from other producer nodes. $p$ must first reach the threshold $G_{min}$, this is the minimum number of transactions broadcast to the RANDAO that it has observed that are considered acceptable for calculating an educated vote. It must the attempt to decode each of the $h_i$ values within $G$. If $p$ has not created the same $h$ as another producers $h_i$, then the received $h_i$ will not be deducible due to hash functions being irreversible. These indecipherable $h_i$ should be be placed in one group while and $h$ values that can be deciphered by: 
 
 \begin{center} 
-$h_i = \mathbb{H}(d || PId_i)$
+$h_i = \mathcal{H}(d~||~PId_i)$
 \end{center} 
 
 therefore:

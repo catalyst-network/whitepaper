@@ -1,6 +1,16 @@
 The third phase of the ledger cycle is the Voting Phase within which a producer $p$ from the $C$ candidates it has received confirms what it believes should be the global ledger state update \textit{i.e.} the update that should be applied to the ledger for that cycle. Furthermore it also decides on the combined list of producers that it belived also reached produced the same update. \\
 
-$p$ begins by waiting to retrieve $C_min$ $c$ values from other producers. At this stage the only producers that reach this stage of the consensus algorithm should be those who have produced the majority ledger state update, however as with the campaigning phase the user attempts to decode the $h^{maj}$ value that is contained within each $c$  
+$p$ begins by waiting to retrieve $C_{min}$ $c$ values from other producers. At this stage the only producers that reach this stage of the consensus algorithm should be those who have produced the majority ledger state update, however as with the campaigning phase the user attempts to decode the $h^{maj}$ value that is contained within each $c$. This will be according to the threshold:\\
+ 
+\begin{center} 
+$C_{threshold}(99.999\%) = \left( 0.5 + 4.22\sqrt{\frac{C^{dec}(C-C^{dec})}{C}}\right) \times C$
+\end{center} 
+
+To determine the minimum number of decoded $C$ values $p$ can accept above 50\% to guarantee with a 99.999\% probability that they have indeed found a majority. \\
+
+Any PId that were not in $p$'s $\#(\mathcal{L})$ should now be added to the hash tree $\#(\mathcal{L}_{final})$
+
+
 
 \begin{comment}
 
