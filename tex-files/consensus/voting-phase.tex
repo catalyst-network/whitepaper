@@ -1,19 +1,30 @@
-The third phase of the ledger cycle is the Voting Phase within which a producer $p$ from the $C$ candidates it has received confirms what it believes should be the global ledger state update \textit{i.e.} the update that should be applied to the ledger for that cycle. Furthermore it also decides on the combined list of producers that it belived also reached produced the same update. \\
+The third phase of the ledger cycle is the Voting phase. In this phase, the producer $p$ collects the $c$ values broadcast by the other producers. By this stage of the consensus algorithm, the only producers that remain should be those that have $h^{maj}$. These recieved $c$ values are incorporated into a set $C$. This set $C$ is used by the producers to determine the complete list of producers that gave the correct update and thereby those that should be rewarded for their contribution. $C_{min}$ is the minimum number of retrieved votes that a producer can have in order to give a valid final update, thereby the producer $p$ continues collecting broadcast votes $c$ until $C \geq C_{min}$. \\
 
-$p$ begins by waiting to retrieve $C_{min}$ $c$ values from other producers. At this stage the only producers that reach this stage of the consensus algorithm should be those who have produced the majority ledger state update, however as with the campaigning phase the user attempts to decode the $h^{maj}$ value that is contained within each $c$. This will be according to the threshold:\\
- 
+
+Upon retrieving enough $c$ values from other producers to meet the threshold $C_{min}$, $p$ must again attempt to decode the $u^{maj}$ values contained within its set $C$. This is done as in the campaigning phase. The amount of decoded values must meet the threshold determined by:  
+
 \begin{center} 
 $C_{threshold}(99.999\%) = \left( 0.5 + 4.22\sqrt{\frac{C^{dec}(C-C^{dec})}{C}}\right) \times C$
 \end{center} 
 
-To determine the minimum number of decoded $C$ values $p$ can accept above 50\% to guarantee with a 99.999\% probability that they have indeed found a majority. \\
+Where $C^{dec}$ is the number of values that $p$ was capable of decoding. If this threshold is met then it can be assumed that with a 99.999\% certainty that a majority of the $C$ values collected by $p$ were in fact the correct update. In reality this number should be significantly higher if not 100\% due to only the producers who hold the correct update having reached this stage of the consensus algorithm. \\
 
-Any PId that were not in $p$'s $\#(\mathcal{L})$ should now be added to the hash tree $\#(\mathcal{L}_{final})$
+Uppon confirming that $p$ is in the majority, they can now begin to produce the final list of producers that created the correct ledger state update. They, take the $C^{dec}$ subset and extract the bloom filters attached to that set. $p$ also retrieves the list of producers for that specific cycle from the Dao. For each element in the list of producers their membership is checked in each of the bloom filters in $C^{dec}$. If and element from that list appears in more that half of the bloom filters that element is added to a new list $\mathcal{L}_{(final)}$, from which a new bloom filter is created $\#(\mathcal{L}_{(final)})$.
+
 
 
 
 \begin{comment}
 
+The third phase of the ledger cycle is the Voting Phase within which a producer $p$ from the $C$ candidates it has received confirms what it believes should be the global ledger state update \textit{i.e.} the update that should be applied to the ledger for that cycle. Furthermore it also decides on the combined list of producers that it believed also reached produced the same update. \\
+
+$p$ begins by waiting to retrieve $C_{min}$ $c$ values from other producers. At this stage the only producers that reach this stage of the consensus algorithm should be those who have produced the majority ledger state update, however as with the campaigning phase the user attempts to decode the $h^{maj}$ value that is contained within each $c$. This will be according to the threshold:\\
+ 
+
+
+To determine the minimum number of decoded $C$ values $p$ can accept above 50\% to guarantee with a 99.999\% probability that they have indeed found a majority. \\
+
+Any PId that were not in $p$'s $\#(\mathcal{L})$ should now be added to the hash tree $\#(\mathcal{L}_{final})$. 
 
 
 \begin{enumerate}

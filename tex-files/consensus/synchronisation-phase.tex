@@ -1,4 +1,4 @@
-The Synchronisation phase allows those nodes that have produced the correct ledger update to then pass this update onto the rest of the network, thereby integrating the changes held within upon the overall state of the ledger.
+The Synchronisation phase allows those nodes that have produced the correct ledger update to then pass this update onto the rest of the network, thereby integrating the changes held within upon the overall state of the ledger. \\
 
 At this stage a producer $p$ who during the consensus phase managed to produce the majority update can now pass along the correct ledger update. \\
 
@@ -7,6 +7,8 @@ Each $p$ that found themselves to be within the majority broadcast their ledger 
 \begin{center} 
 $LSU = \#(\mathcal{L}_{final})~||~T~||~PId$
 \end{center} 
+
+Meaning that contained within the final ledger state are three elements, the bloom filter containing all the users that a producer $p$ found to have passed on the correct ledger state updates the list of transactions $T$ that were incorporated into this ledger update, and their PId in order to verify authenticity of the update. From the LSU a CID is created that relates to the updates location on the DFS. \\
 
 This combined with the information recorded in the transactions in the RANDAO provides users with the information required to determine which users from the pool of producers $P$ that were selected from this cycle were. \\
 

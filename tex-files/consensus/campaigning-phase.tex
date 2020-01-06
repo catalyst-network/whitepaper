@@ -28,9 +28,12 @@ If these two criteria are not met then it is assumed that the producer $p$ has f
 If these thresholds are met $p$ then:
 \begin{enumerate}
 \item $p$ creates a list $\mathcal{L}$. To this list $p$ appends the $PId$ of any producer that $p$ correctly decoded the $h_i$ value. $p$ should append their own $PId$.
+\item From the list $\mathcal{L}$ $p$ creates a bloom filter $\#(\mathcal{L})$. Each element of the list  $\mathcal{L}$ is added to the bloom filter. 
 \item Producer $p$ then creates their candidate for the ledger update $c$ which is calculated as $c = h^{maj}~||~\#(\mathcal{L})~||~Id$
 \item Producer $p$ will then broadcast their preferred update $c$ to the other producers.
 \end{enumerate}
+
+At the end of the campaigning phase the producer $p$ should broadcast three elements (under the assumption that they found themselves to be in the majority). These elements are $h^{maj}$, which in reality will be the same as the $h$ value they broadcast in the construction phase, the bloom filter $\#(\mathcal{L})$ which represents all the other producers that $p$ found to have produced the majority update and their PId. \\
 
 
 NB: NOT SURE ABOUT THIS PART NEEDS TO BE DISCUSSED: Do we still need another round of voting. 
