@@ -1,1 +1,21 @@
-EVM is the run-time environment that enables smart contracts on the Ethereum blockchain. It relies on the fact that when a smart contract is ran upon two different machine using the same inputs both machines will retrieve the same output i.e. it is deterministic. Smart contracts can be written primarily in the Solidity language.
+The EVM can be considered the Ethereum state machine. It provides nodes with an execution model that determines how the world state of the Ethereum network is to be altered given various byte-code commands.  Nodes can thereby uniformly order actions that should be performed on the world state of the network. This allows any peer connected to the network to calculate what the current state of the network is. \\
+
+It is structured as virtual stack, within which 1024 separate 256-bit values can be stored. \\  
+
+EVM is the run-time environment that enables smart contracts on the Ethereum blockchain. It relies on the fact that when a smart contract is ran upon two different machine using the same inputs both machines will retrieve the same output i.e. it is deterministic. Smart contracts can be written primarily in the Solidity language. This allows automatic settlement. This is possible as given a specific set of inputs the EVM will always return the same output, meaning that a smart contract ran by any peer on the network will always return the same result as all other peers. \\
+
+It is considered Turing complete meaning that any algorithm that can be logically coded can be ran on the EVM. This is not strictly true due to Gas limit that restricts the number of operations that can be run by one contract, meaning that the there are large algorithms that require more operations that are possible with the current Gas limit.  \\
+ 
+
+Opcodes represent functions that can be performed by the EVM, and each opcode will affect the EVM's stack based infrastructure differently. Each of the opcodes has a price in Gas associated with. Gas is the currency used by the EVM for a user to pay for the cost of operations on the network, i.e. how much computing power is required to run that opcode. This is two fold, firstly it is used as a reward mechanism for miners on the network, secondly it prevents DDos attacks on the network from users spamming the network with difficult to run smart contracts with no financial repercussions. Examples of Opcodes include: \\
+
+\begin{itemize}
+
+\item STOP - Stops the contract running.
+\item ADD - Addition of the top two integers of the stack.
+\item MUL - Multiplication of the top two integers of the stack.
+\item SHA3 - Creates a Keccak-256 hash from a given value. \\
+
+\end{itemize} 
+
+In total there are 140 unique opcodes, the full list of which can be found at \cite{Opcodes}. Through these opcodes, any algorithm can be created and ran on the ethereum network providing it keeps to the Gas limit. 

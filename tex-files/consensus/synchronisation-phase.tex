@@ -1,4 +1,20 @@
-The Synchronisation phase allows those nodes that have produced the correct ledger update to then pass this update onto the rest of the network, thereby integrating the changes held within upon the overall state of the ledger.
+The Synchronisation Phase allows those nodes that have produced the correct ledger update to then pass this update onto the rest of the network, thereby integrating the changes held within upon the overall state of the ledger. Catalysts DFS is the mechanism for distribution of the newly formed ledger update, thereby two distinct \\
+
+At this stage a producer $p$ who during the consensus phase managed to produce the majority update can now pass along the correct ledger update. \\
+
+Each $p$ that found themselves to be within the majority broadcast their ledger update to the network. This takes the form: 
+
+\begin{center} 
+$LSU = \#(\mathcal{L}_{final})~||~T~||~PId$
+\end{center} 
+
+Meaning that contained within the final ledger state are three elements, the bloom filter containing all the users that a producer $p$ found to have passed on the correct ledger state updates the list of transactions $T$ that were incorporated into this ledger update, and their PId in order to verify authenticity of the update. From the LSU a CID is created that relates to the updates location on the DFS. \\
+
+This combined with the information recorded in the transactions in the RANDAO provides users with the information required to determine which users from the pool of producers $P$ that were selected from this cycle were. \\
+
+The producer then pins this update to the DFS, adding their name to the hash table. If they are the first to do so they also create the CID for this update. The producer can the broadcast this CID to the network, declaring that a new delta has been created. Other peers on the network can access the update and request the update from one of the producers that holds the update.
+
+\begin{comment}
 
 During the synchronisation phase $p$ executes the following steps:
 
@@ -19,7 +35,7 @@ During the synchronisation phase $p$ executes the following steps:
 
 The producer then broadcasts $\mathbf{o}$ to the network.
 \end{enumerate}
-
+\end{comment}
 \begin{comment}
 
 \subsubsection{Ledger state synchronisation across the network}
@@ -35,4 +51,62 @@ By extracting the identifier $Id_k$ embedded in any collected output $o_k$, a us
 Worker nodes also store the list $\mathcal{L}_{n}(vote)$ embedded in each $o_k$ output. If selected to be a producer for the next cycle $\mathcal{C}_{n+1}$, a worker can use it to generate the reward allocated to the producers who correctly voted for the accurate ledger state update during the ledger cycle $\mathcal{C}_{n}$.\\
 
 \end{comment}
+
+\begin{verbatim}
+pragma solidity ^0.5.11;
+contract RANDAO is Ownable
+{
+    int deltaHeight;
+    int cycleVotes;
+    int targetThreshold;
+    
+    struct Delta {
+        bytes32 deltaHash;
+    }
+    struct Guest {
+        address guestAddress;
+        uint guestId;
+    }
+    struct validator {
+        uint validatorId;
+        bytes32 commitment;
+        address validatorAddress;
+    }
+    address[] public stakers;
+    bytes32[] public candidateDeltas;
+    mapping(bytes32 => bool) commitments;
+    mapping(address => Delta) public cycleVotes;    
+    mapping(address => validator) public stakersMapping;
+    event NodeStake(address guest);
+    
+    constructor
+    (
+        int deltaHeight
+    )
+    public
+    {
+        deltaHeight = deltaHeight;
+    }
+    function stakeEntry(bytes32 commitment) public payable
+    {
+        address _senderAddress = _msgSender();
+        require(msg.value == 21 Kat, "you need more Kats to stake");
+        stakersMapping[_senderAddress].guestId = stakers.push(_senderAddress) - 1;
+        // generate PRNG logic here
+        emit NodeStake(_senderAddress);
+    }
+    function voteDelta(bytes32 favouriteDelta) public payable
+    {
+        address _senderAddress = _msgSender();
+        if(stakers[stakersMapping[_senderAddress].guestId] == _senderAddress)
+        {
+            if (cycleThreshold < targetThreshold)
+            {
+                cycleVotes[_senderAddress] = candidateDeltas.push(favouriteDelta);
+            }
+        }
+    }
+}
+\end{verbatim}
+
 
