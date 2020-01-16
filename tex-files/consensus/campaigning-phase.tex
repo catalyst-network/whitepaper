@@ -1,0 +1,58 @@
+The second phase of the consensus mechanism is where the producer $p$ generates and proposes a candidate, which it calculates to be the most popular ledger state update. \\
+
+
+Beginning this phase producer $p$ is constructing a set of proposed ledger updates $G$ that it is receiving from other producer nodes. $p$ must first reach the threshold $G_{min}$, this is the minimum number of transactions broadcast to the RANDAO that it has observed that are considered acceptable for calculating an educated vote. It must the attempt to decode each of the $h_i$ values within $G$. If $p$ has not created the same $h$ as another producers $h_i$, then the received $h_i$ will not be deducible due to hash functions being irreversible. These indecipherable $h_i$ should be be placed in one group while and $h$ values that can be deciphered by: 
+
+\begin{center} 
+$h_i = \mathcal{H}(d~||~PId_i)$
+\end{center} 
+
+therefore:
+
+\begin{center} 
+$d_i == d$
+\end{center} 
+
+If this is satisfied, then it is provable that this $h_i$ from another producer used the same set of extracted signatures retrieved and thereby the same set of transactions was used. These two producers have proposed the same update. \\
+
+This continues for all the $h_i$ values in $G$, leaving two distinct subsets of votes. Those that can be decoded and those that can not. If $p$ found the majority then the number in the subset that could be decoded should be greater that that of the size of the subset that could not. Furthermore, the number in this subset should reach a minimum thereshold which is defined as:
+
+\begin{center} 
+$G_{threshold}(99.999\%) = \left( 0.5 + 4.22\sqrt{\frac{G^{dec}(G-G^{dec})}{G}}\right) \times G$
+\end{center} 
+
+Where $G$ is the total amount of votes seen, and $G^{dec}$ is the set of values that $p$ was capable of decoding. \\
+
+If these two criteria are not met then it is assumed that the producer $p$ has failed to select the correct set of transactions and thereby has failed the consensus process. Meanwhile if these criteria have been met then the producer knows that consensus has been achieved with a subset of other successful producers. \\
+
+If these thresholds are met $p$ then:
+\begin{enumerate}
+\item $p$ creates a list $\mathcal{L}$. To this list $p$ appends the $PId$ of any producer that $p$ correctly decoded the $h_i$ value. $p$ should append their own $PId$.
+\item From the list $\mathcal{L}$, $p$ creates a bloom filter $\#(\mathcal{L})$. Each element of the list  $\mathcal{L}$ is added to the bloom filter. 
+\item Producer $p$ then creates their candidate for the ledger update $c$ which is calculated as $c = h^{maj}~||~\#(\mathcal{L})~||~Id$
+\item Producer $p$ will then broadcast their preferred update $c$ to the other producers.
+\end{enumerate}
+
+At the end of the campaigning phase the producer $p$ should broadcast three elements (under the assumption that they found themselves to be in the majority). These elements are $h^{maj}$, which in reality will be the same as the $h$ value they broadcast in the construction phase, the bloom filter $\#(\mathcal{L})$ which represents all the other producers that $p$ found to have produced the majority update and their PId. \\
+
+
+NB: NOT SURE ABOUT THIS PART NEEDS TO BE DISCUSSED: Do we still need another round of voting. 
+
+
+
+\begin{comment}
+
+ Each $h$ within $G$ contains a producer's hash of the proposed update ($u$ and a peer identifier ($Id$). The most popular $u$ value can be found, which gives us $u^{maj}$, and from there the subset $G_{maj}$ can be created, which is the amount of votes for the most popular update. Two thresholds must be considered first are $G_{min}$, the minimum amount of updates it has received from other producers in order to generate a valid candidate, and $G_{thresh}$, the threshold value for which a minimum number of votes must be in favor of $G_{maj}$ (the most popular vote found within $G$). So in order to proceed with declaring a candidate the requirements, $G > $ and $G_{maj} > G_{thresh}$ must be met. \\ 
+
+If the thresholds are met the following can take place:
+
+\begin{enumerate}
+\item $p$ creates a list $\mathcal{L}(prod)$. To this list $p$ appends the identifier of any producer that correctly sent the $u$ value that equals $u^{maj}$. If $p$'s $u$ value is also the same as $u^{maj}$ then they should append their own $Id$.
+\item Producer $p$ then creates their candidate for the ledger update $c$ which is calculated as $c = u^{maj}~||~\#(\mathcal{L}(prod))~||~Id$
+\item Producer $p$ will then broadcast their preferred update $c$ to the other producers.
+\end{enumerate}
+
+$p$ during this phase will be collecting the $c$ values from other producers. At the end of this phase of the cycle $p$ will hold a set of $C$ candidates.
+
+
+\end{comment}

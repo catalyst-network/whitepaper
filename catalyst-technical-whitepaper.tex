@@ -1,0 +1,162 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{centernot}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage[colorlinks]{hyperref}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{titlesec}
+\usepackage{scrextend}
+\usepackage{titlepic}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{epstopdf}
+\usepackage{pdflscape}
+ \usepackage{placeins}
+ \usepackage{enumitem}
+\usepackage[margin=1.2in]{geometry}
+\usepackage{authblk}
+\usepackage{caption}
+
+\graphicspath{{./Figures/state-figures/} {../../Figures/state-figures/} }
+
+\title{\textbf{Catalyst Network - Technical White Paper (DRAFT - V1)}}
+\date{\today}
+
+\author[1]{James Kirby\thanks{nshcore@protonmail.com}}
+\author[2]{Joseph Kearney\thanks{joseph.kearney@atlascity.io}}
+\affil[1]{Catalyst Foundation}
+\affil[2]{AtlasCity}
+
+
+\begin{document}
+
+\includepdf [fitpaper=true] {Figures/cover-image}
+
+\maketitle
+
+\abstract
+
+\input{tex-files/abstract}
+
+\begin{center}
+\vspace{50mm}
+\textbf{This document is a work in progress and is subject to change.}
+\end{center}
+
+\newpage
+
+{
+  \hypersetup{linkcolor=black}
+  \tableofcontents
+}
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Introduction}
+
+\input{tex-files/intro}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Catalyst Consensus Mechanism}
+
+\input{tex-files/consensus/consensus-intro}
+
+\subsection{Producer Node Selection}
+
+\input{tex-files/consensus/producer-node-selection}
+
+
+\subsection{Notation} 
+
+\input{tex-files/consensus/notation}
+
+\subsection{Construction Phase}
+
+\input{tex-files/consensus/construction-phase}
+
+
+\subsection{Campaigning Phase}
+
+\input{tex-files/consensus/campaigning-phase}
+
+
+\subsection{Voting Phase}
+
+\input{tex-files/consensus/voting-phase}
+
+\subsection{Synchronisation Phase}
+
+\input{tex-files/consensus/synchronisation-phase}
+
+\subsection{Bloom Filters in Further Detail}
+
+\input{tex-files/consensus/bloom-filter}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Distributed File System}
+
+\input{tex-files/DFS/dfs-intro}
+
+\subsection{IPFS}
+
+\input{tex-files/DFS/ipfs}
+
+\subsection{Integrating the DFS}
+
+\input{tex-files/DFS/integrating-dfs}
+
+\subsection{The Marketplace}
+
+\input{tex-files/DFS/marketplace}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Global Ledger State}
+\input{tex-files/state/state-intro}
+
+\subsection{Account State}
+\input{tex-files/state/account-state}
+
+\subsection{Ledger Storage}
+\input{tex-files/state/ledger-storage}
+
+\subsection{Updating the State}
+\input{tex-files/state/updating-state}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{KVM}
+
+\input{tex-files/KVM/kvm-intro}
+
+\subsection{From the EVM}
+
+\input{tex-files/KVM/evm}
+
+\subsection{To the KVM}
+
+\input{tex-files/KVM/kvm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section*{Conclusion}
+
+\input{tex-files/conclusion}
+
+
+\bibliography{catalyst-technical-whitepaper}
+\bibliographystyle{ieeetr}
+
+\end{document}
