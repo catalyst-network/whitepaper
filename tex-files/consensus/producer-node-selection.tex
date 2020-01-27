@@ -1,4 +1,4 @@
-Original work for the Catalyst consensus mechanism states that the peers are selected with relation to the persistent identifier and the hash of the previous data. But as the persistent identifier can be manipulated by a user and thereby weighted in their favor of selection to become a producer, this is not usable. \\
+For the PoA test-net a select group of authority nodes are selected, these nodes will be randomly selected to provide the ledger state update for a predetermined number of cycles. The producer nodes are selected randomly according to the following protocol. 
 
 Research into a randomly decided decentralised autonomous organisation (RANDAO) provides a viable alternative \cite{skvorc}\cite{randao}. This is a process by which each user creates their own random value and by combining these random numbers across the network they calculate a global pseudo-random number. The larger the network the more random the number will be. The proposed process works as follows: \\
 
@@ -30,4 +30,4 @@ Inclusion of the $D$ value is necessary as this will prevent a producer from usi
 
 As described in RANDAO \cite{randao}, this can be further extended to implement staking. Nominal contribution fees can be added in order to prevent DDOS and Sybil attacks without disincentivising participation. There is also the additional benefit of simplification of the overall consensus mechanism as it removes the need for a queuing mechanism, as well as producing a verifiable method of keeping track of which nodes are registering to be workers for any given cycle. It also in turn provides evidence to other nodes on the network who the producers for any given cycle are as the process will be verifiable. \\
 
-This scheme will provide the Catalyst consensus mechanism with a verifiable, reliable and secure mechanism to generate a pool of producers. By randomly assigning which workers get to participate in the next ledger cycle, fairness is ensured. \\
+This scheme will provide the Catalyst consensus mechanism with a verifiable, reliable and secure mechanism to generate a the lead producer for a cycle. By randomly assigning which worker get to create the new ledger update in the next ledger cycle, fairness is ensured. \\
