@@ -1,7 +1,7 @@
 The second phase of the consensus mechanism is where the producer $p$ generates and proposes a candidate, which it calculates to be the most popular ledger state update. \\
 
 
-Beginning this phase producer $p$ is constructing a set of proposed ledger updates $G$ that it is receiving from other producer nodes. $p$ must first reach the threshold $G_{min}$, this is the minimum number of transactions broadcast to the RANDAO that it has observed that are considered acceptable for calculating an educated vote. It must the attempt to decode each of the $h_i$ values within $G$. If $p$ has not created the same $h$ as another producers $h_i$, then the received $h_i$ will not be deducible due to hash functions being irreversible. These indecipherable $h_i$ should be be placed in one group while and $h$ values that can be deciphered by: 
+Beginning this phase producer $p$ is constructing a set of proposed ledger updates $G$ that it is receiving from other producer nodes. $p$ must first reach the threshold $G_{min}$, this is the minimum number of messages $h$ that $p$ has observed that are considered acceptable for calculating an educated vote. It must the attempt to decode each of the $h_i$ values within $G$. If $p$ has not created the same $h$ as another producers $h_i$, then the received $h_i$ will not be deducible due to hash functions being irreversible. These indecipherable $h_i$ should be be placed in one group while and $h$ values that can be deciphered by: 
 
 \begin{center} 
 $h_i = \mathcal{H}(d~||~PId_i)$
@@ -15,7 +15,7 @@ $d_i == d$
 
 If this is satisfied, then it is provable that this $h_i$ from another producer used the same set of extracted signatures retrieved and thereby the same set of transactions was used. These two producers have proposed the same update. \\
 
-This continues for all the $h_i$ values in $G$, leaving two distinct subsets of votes. Those that can be decoded and those that can not. If $p$ found the majority then the number in the subset that could be decoded should be greater that that of the size of the subset that could not. Furthermore, the number in this subset should reach a minimum thereshold which is defined as:
+This continues for all the $h_i$ values in $G$, leaving two distinct subsets of votes. Those that can be decoded and those that can not. If $p$ found the majority then the number in the subset that could be decoded should be greater that that of the size of the subset that could not. Furthermore, the number in this subset should reach a minimum threshold which is defined as:
 
 \begin{center} 
 $G_{threshold}(99.999\%) = \left( 0.5 + 4.22\sqrt{\frac{G^{dec}(G-G^{dec})}{G}}\right) \times G$
