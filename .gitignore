@@ -10,3 +10,11 @@
 *.out
 
 *.toc
+
+.vs/ProjectSettings.json
+
+.vs/slnx.sqlite
+
+.vs/VSWorkspaceState.json
+
+.vs/whitepaper/v16/.suo
