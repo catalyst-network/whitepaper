@@ -1,4 +1,16 @@
-Original work for the Catalyst consensus mechanism states that the peers are selected with relation to the persistent identifier and the hash of the previous data. But as the persistent identifier can be manipulated by a user and thereby weighted in their favor of selection to become a producer, this is not usable. \\
+For the PoA test-net a select group of authority nodes are used to gain consensus on the network. The consensus mechanism laid out in this section is the same as the mainnet implementation, however nodes selected by the Catalyst core dev team will be the selected nodes that are producers. For the producer selection for the mainnet can be found \cite{CatRand}. At each cycle a number of the trusted nodes will be selected at random according to the previous delta in the chain, this is done as follows: 
+
+\begin{itemize}
+\item Each authority node, calculates a random number $r$ using the previous ledger state update as a seed. 
+\item They then calculate $v = PId \oplus r$ where $PId$ is the authority nodes unique identifier and $\oplus$ is the XOR function. 
+\item Each authority node would thereby be able to calculate a list $V$, constituting all the $v$ values for each authority node in chronological order according to $v$. 
+\item Dependent on how many producer nodes are required for a cycle, the first $n$ $v$ values and their corresponding peers will form the next producer pool for that cycle. 
+\end{itemize} 
+
+Once this is completed a producer pool $P$ should have been created and they will perform work for the network for a given number of cycles. 
+
+
+\begin{comment} 
 
 Research into a randomly decided decentralised autonomous organisation (RANDAO) provides a viable alternative \cite{skvorc}\cite{randao}. This is a process by which each user creates their own random value and by combining these random numbers across the network they calculate a global pseudo-random number. The larger the network the more random the number will be. The proposed process works as follows: \\
 
@@ -30,4 +42,4 @@ Inclusion of the $D$ value is necessary as this will prevent a producer from usi
 
 As described in RANDAO \cite{randao}, this can be further extended to implement staking. Nominal contribution fees can be added in order to prevent DDOS and Sybil attacks without disincentivising participation. There is also the additional benefit of simplification of the overall consensus mechanism as it removes the need for a queuing mechanism, as well as producing a verifiable method of keeping track of which nodes are registering to be workers for any given cycle. It also in turn provides evidence to other nodes on the network who the producers for any given cycle are as the process will be verifiable. \\
 
-This scheme will provide the Catalyst consensus mechanism with a verifiable, reliable and secure mechanism to generate a pool of producers. By randomly assigning which workers get to participate in the next ledger cycle, fairness is ensured. \\
+This scheme will provide the Catalyst consensus mechanism with a verifiable, reliable and secure mechanism to generate a the lead producer for a cycle. By randomly assigning which worker get to create the new ledger update in the next ledger cycle, fairness is ensured. \\ \end{comment}
