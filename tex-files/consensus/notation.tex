@@ -12,10 +12,9 @@ For the sake of clarity, here is a dictionary of the variables used in the proce
 \item $H$ - A hash of each list $E$ combined with the salt $\sigma$.
 \item $L$ - Alphanumerically ordered list of the pairs $E,H$, sorted according to $H$.
 \item $G$ - The list of proposed updates $u$ that producer $p$ collects from other nodes in producer pool $P$. This is used to determine the most popular update.
-\item $\mathcal{L}(prod)$ - The list of producers from a particular producers' set $G$ that sent the most popular ledger state update.
-\item $L_{CE}$ - A producers list of compensation entries \textit{i.e.} who a producer believes did the correct work for the network and thereby should be rewarded.
-\item $\mathcal{L}(vote)$ - The list of producers a specific producer found to have forwarded the correct vote for the most popular ledger state update.
-\item $LSU$ - Ledger State Update. This is the final ledger state update proposed by a producer node. It consists of the list of entries used to create the update, the hash tree containing the signatures and the list of compensation entries.
-\item $V$ - A producers vote for the correct $LSU$ formed of the hash of the LSU, $L_{vote}$ and the producer's ID.
-\item $\mathbf{o}$ - The final producer output that is declared to the network.
+\item $\#\mathcal{L}$ - The bloom filter of producers from a particular producers' set $G$ that sent the most popular ledger state update.
+\item $L_{final}$ - A producers list of compensation entries \textit{i.e.} who a producer believes did the correct work for the network and thereby should be rewarded. This is created from all the combined $\#\mathcal{L}$ received. 
+\item $\#\mathcal{L}_{(final)}$ - The bloom filter of producers a specific producer found in $L_{final}$.
+\item $LSU$ - Ledger State Update. This is the final ledger state update proposed by a producer node. It consists of the list of transactions used to create the update, the bloom filter or producers who produced the correct partial ledger state update and the users peer ID.
+
 \end{itemize}
