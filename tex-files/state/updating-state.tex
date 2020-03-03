@@ -1,3 +1,25 @@
 The current state of the ledger can always be obtained by applying the relevant deltas to a previous state. This process is deterministic such that applying the correct updates will always create an identical new state tree. Where data is unchanged the previous entries do not need to change in order to be included in the new state.\\
 
-The merkle tree data structure has the additional advantage that as we apply each delta we do not overwrite information from previous ledger states. This means that the ledger history can be easily queried.
+The merkle tree data structure has the additional advantage that as we apply each delta we do not overwrite information from previous ledger states. This means that the ledger history can be easily queried. \\
+
+\subsection{Retrieving the Current Ledger State}
+
+When a new node (one that has no knowledge of the current ledger state) joins the network it must synchronise with the other nodes on the network. This means that it must get the current ledger state. While the Catalyst network does not require knowledge of every single transaction performed on the network since the genesis block, a node can not simply download the current ledger state. This would be prone to error or potential malicious activity. Therefore a node must recreate the current ledger state from the genesis block. \\
+
+New nodes on the network have knowledge of the hard coded genesis state i.e. the initial state of the network at the beginning of its life. The new node then proceeds to request the current delta height from its connected peers. From these responses the producer will select the group of nodes that provide the highest value. The new node will then request the CID's for the ledger state updates in chunks. Currently producers will request 20 at a time, this protocol takes place as follows: \\
+
+\begin{itemize} 
+
+\item New node requests current delta height from other connected peers. 
+\item Other connected peers reply and a majority of height $x$ is found. 
+\item New node initially requests a chunk of CID's from the genesis block to a high to 20 blocks so $0,\cdots,19$.
+\item Upon receiving these CID's, the node compares the first element of the list i.e. the CID for state 0 to the known value for this element i.e. the genesis state. 
+\item If this matches up then the corresponding files on the DFS are downloaded for the CID's given. 
+\item Each of these downloaded ledger state updates are applied in order to the base state. 
+\item Concurrently the next chunk of CID's are requested i.e.  $19,\cdots,28$.
+\item As delta 19 is now the known value these values are compared. 
+\item This process repeats until all ledger state updates have been applied to the genesis state. 
+\item The outcome being that the node is now in sync. 
+
+\end{itemize} 
+
