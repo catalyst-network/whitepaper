@@ -50,8 +50,6 @@ By extracting the identifier $Id_k$ embedded in any collected output $o_k$, a us
 
 Worker nodes also store the list $\mathcal{L}_{n}(vote)$ embedded in each $o_k$ output. If selected to be a producer for the next cycle $\mathcal{C}_{n+1}$, a worker can use it to generate the reward allocated to the producers who correctly voted for the accurate ledger state update during the ledger cycle $\mathcal{C}_{n}$.\\
 
-\end{comment}
-
 \begin{verbatim}
 pragma solidity ^0.5.11;
 contract RANDAO is Ownable
@@ -108,5 +106,7 @@ contract RANDAO is Ownable
     }
 }
 \end{verbatim}
+
+\end{comment}
 
 

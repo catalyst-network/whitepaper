@@ -1,0 +1,82 @@
+\begin{thebibliography}{10}
+
+\bibitem{nakamoto2008bitcoin}
+S.~Nakamoto {\em et~al.}, ``Bitcoin: A peer-to-peer electronic cash system,''
+  2008.
+
+\bibitem{chaum1979computer}
+D.~L. Chaum, {\em Computer Systems established, maintained and trusted by
+  mutually suspicious groups}.
+\newblock Electronics Research Laboratory, University of California, 1979.
+
+\bibitem{wood2014ethereum}
+G.~Wood {\em et~al.}, ``Ethereum: A secure decentralised generalised
+  transaction ledger,'' {\em Ethereum project yellow paper}, vol.~151,
+  no.~2014, pp.~1--32, 2014.
+
+\bibitem{back2002hashcash}
+A.~Back {\em et~al.}, ``Hashcash-a denial of service counter-measure,'' 2002.
+
+\bibitem{catalystresearch}
+P.~Bernat, J.~Kearney, and F.~Sage-Ling, ``Catalyst network research: a new
+  consensus protocol.''
+  \url{https://atlascitywebsitedocs.blob.core.windows.net/websitefiles/catalyst-consensus-paper.pdf},
+  07/11/2019.
+
+\bibitem{catalystresearch2}
+P.~Bernat, J.~Kearney, and F.~Sage-Ling, ``Catalyst network: Security
+  considerations.''
+  \url{https://atlascitywebsitedocs.blob.core.windows.net/websitefiles/Catalyst%20Network%20Security%20Considerations.pdf},
+  07/11/2019.
+
+\bibitem{skvorc}
+B.~Skvorc, ``Two point oh: Randomness.''
+  \url{https://our.status.im/two-point-oh-randomness/}, 07/05/2019.
+
+\bibitem{randao}
+randao, ``randao.'' \url{https://github.com/randao/randao/}, 26/03/2019.
+
+\bibitem{EthBloat}
+S.~Hackernoon, ``The ethereum-blockchain size has exceeded 1tb, and yes, it’s
+  an issue.''
+  \url{https://hackernoon.com/the-ethereum-blockchain-size-has-exceeded-1tb-and-yes-its-an-issue-2b650b5f4f62},
+  19/05/2018.
+
+\bibitem{DFS}
+catalyst network, ``Catalyst.core.modules.dfs.''
+  \url{https://github.com/catalyst-network/Catalyst.Framework/tree/develop/src/Catalyst.Core.Modules.Dfs},
+  07/11/2019.
+
+\bibitem{benet2014ipfs}
+J.~Benet, ``Ipfs - content addressed, versioned, p2p file system,'' {\em arXiv
+  preprint arXiv:1407.3561}, 2014.
+
+\bibitem{BytesExtentions}
+catalyst network, ``Bytesextensions.cs.''
+  \url{https://github.com/catalyst-network/Catalyst.Framework/blob/b761153e5e30a65b843d470cf60175256bd43276/src/Catalyst.Core.Lib/Extensions/BytesExtensions.cs},
+  07/11/2019.
+
+\bibitem{benet2018filecoin}
+J.~Benet and N.~Greco, ``Filecoin: A decentralized storage network,'' {\em
+  Protoc. Labs}, 2018.
+
+\bibitem{warren20170x}
+W.~Warren and A.~Bandeali, ``0x: An open protocol for decentralized exchange on
+  the ethereum blockchain,'' {\em URl: https://github.
+  com/0xProject/whitepaper}, 2017.
+
+\bibitem{KATUnit}
+catalyst network, ``Catalyst.core.modules.kvm - catalystunit.cs.''
+  \url{https://github.com/catalyst-network/Catalyst/blob/master/src/Catalyst.Core.Modules.Kvm/CatalystUnit.cs},
+  07/11/2019.
+
+\bibitem{KVM}
+catalyst network, ``Catalyst.core.modules.kvm.''
+  \url{https://github.com/catalyst-network/Catalyst.Framework/tree/develop/src/Catalyst.Core.Modules.Kvm},
+  07/11/2019.
+
+\bibitem{Opcodes}
+ethervm, ``Ethereum virtual machine opcodes.'' \url{https://ethervm.io/},
+  28/09/2019.
+
+\end{thebibliography}
