@@ -1,0 +1,14 @@
+.git
+.github
+build
+
+*.pdf
+*.bbl
+*.blg
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+
+.DS_Store

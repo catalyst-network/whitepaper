@@ -16,6 +16,42 @@ Setting up and using LaTeX can be found here:
 
 https://github.com/catalyst-network/whitepaper/wiki/Using-and-Compiling-LaTeX
 
+## Building (local)
+
+This repository is a LaTeX project. The recommended entrypoint is:
+
+- `catalyst-technical-whitepaper-new.tex`
+
+### Prerequisites (Ubuntu/Debian)
+
+Install a TeX distribution and `latexmk`:
+
+```bash
+sudo apt update
+sudo apt install -y latexmk texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-pictures texlive-bibtex-extra
+```
+
+### Build
+
+```bash
+make pdf
+```
+
+Outputs are written to `build/` (see `Makefile`).
+
+### Build (Docker)
+
+If you prefer not to install TeX locally:
+
+```bash
+docker build -t catalyst-whitepaper .
+docker run --rm -v "$PWD:/work" catalyst-whitepaper
+```
+
+### Alternative entrypoints
+
+- `catalyst-technical-whitepaper.tex` exists, but may not build in some revisions depending on which consensus subsection file is present.
+
 
 ## File Format
 
@@ -29,4 +65,4 @@ Each section and subsection is split into separate `.tex` files for ease of edit
 
 The paper that covers the PoA Test net and the minor changes involved with that can be found [here](https://github.com/catalyst-network/whitepaper/tree/PoA-paper-version). 
 
-Differences are primeraly in the consensus algorithm with regards to producer selection.  
+Differences are primarily in the consensus algorithm with regards to producer selection.  

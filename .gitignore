@@ -1,20 +1,39 @@
 
+## LaTeX build artifacts
 *.aux
-
-*.log
-
+*.bbl
+*.bcf
 *.blg
-
-*.gz
-
+*.fdb_latexmk
+*.fls
+*.log
 *.out
-
+*.run.xml
+*.synctex.gz
 *.toc
 
-.vs/ProjectSettings.json
+## Common LaTeX extras
+*.lof
+*.lot
+*.nav
+*.snm
+*.vrb
+*.xdv
+*.idx
+*.ilg
+*.ind
+*.ist
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+_minted*
 
-.vs/slnx.sqlite
+## Build output directory (used by Makefile/CI)
+build/
 
-.vs/VSWorkspaceState.json
-
-.vs/whitepaper/v16/.suo
+## OS / editor artifacts
+.DS_Store
+.vs/
